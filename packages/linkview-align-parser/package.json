@@ -30,6 +30,9 @@
     "url": "https://github.com/YangJianshun/LINKVIEW2/issues"
   },
   "devDependencies": {
-    "jest": "^27.1.0"
-  }
+    "@types/line-reader": "^0.0.34",
+    "jest": "^27.1.0",
+    "line-reader": "^0.4.0"
+  },
+  "dependencies": {}
 }
