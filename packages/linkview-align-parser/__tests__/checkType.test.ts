@@ -39,6 +39,11 @@ describe('checkType test', () => {
     expect(res).toBe(AlignType.NUCMER);
   });
 
+  test('checkType: NUCMER format', async () => {
+    const res = await checkType(path.join(__dirname, './alignments/alignments.rl.nucmer'));
+    expect(res).toBe(AlignType.NUCMER);
+  });
+
   test('checkType: UNKNOWN format', async () => {
     const res = await checkType(path.join(__dirname, './alignments/alignments.unknown'));
     expect(res).toBe(AlignType.UNKNOWN);
