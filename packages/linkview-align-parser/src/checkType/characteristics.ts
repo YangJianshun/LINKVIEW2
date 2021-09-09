@@ -1,5 +1,4 @@
-import { AlignType } from './constants';
-
+import { AlignType, Characteristics } from '../@types/characteristics';
 /**
  * 将各种 alignments 的格式特点抽象出来，用于自动判断格式类型
  * 注意：
@@ -31,12 +30,12 @@ import { AlignType } from './constants';
  *
  * 4. NUCMER
  * 有一行 trim 后，以 NUCMER 开头
- * 有一行 包含 '[S1]' '[TAG]'，且包含 '|'
+ * 有一行 包含 '[S1]' '[TAGS]'，且包含 '|'
  * 按照 /\s+\|\s+|\s+/ 分割后，根据 包含 [S1] 的行，推测出 对应的模式 (parser 中注意)
  *
  * 5. NUCMER_T
  * 有一行 trim 后，以 NUCMER 开头
- * 有一行 包含 '[S1]' '[TAG]', 且 不包含 '|'
+ * 有一行 包含 '[S1]' '[TAGS]', 且 不包含 '|'
  * 按照 空白 分割后，根据 包含 [S1] 的行，推测出 对应的模式
  *
  * 6. NUCMER_B
@@ -116,7 +115,7 @@ const characteristics: Characteristics = {
         startsWith: 'NUCMER',
       },
       {
-        content: ['[S1]', '[TAG]', '|'],
+        content: ['[S1]', '[TAGS]', '|'],
       },
     ],
   },
@@ -126,7 +125,7 @@ const characteristics: Characteristics = {
         startsWith: 'NUCMER',
       },
       {
-        content: ['[S1]', '[TAG]'],
+        content: ['[S1]', '[TAGS]'],
         exclude: {
           content: '|',
         },
@@ -154,6 +153,7 @@ const characteristics: Characteristics = {
       },
     },
   },
+  [AlignType.UNKNOWN]: {}
 };
 
 export default characteristics;

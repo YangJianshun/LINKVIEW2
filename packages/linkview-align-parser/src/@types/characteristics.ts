@@ -1,4 +1,16 @@
-type Colum =
+/// <reference path="../checkType/constants.ts" />
+
+export enum AlignType {
+  UNKNOWN = '0',
+  STANDARD = '1',
+  BLAST = '2',
+  MINIMAP = '3',
+  NUCMER = '4',
+  NUCMER_T = '5',
+  NUCMER_B = '6',
+}
+
+export type Colum =
   | 'ctg1'
   | 'start1'
   | 'end1'
@@ -18,7 +30,7 @@ type Colum =
   | 'NUCMER'
   | 'otherNumber';
 
-type LineCharacteristic = {
+export type LineCharacteristic = {
   startsWith? : string;
   endsWith? : string;
   content?: string | string[];
@@ -30,11 +42,15 @@ type LineCharacteristic = {
   exclude?: LineCharacteristic
 }
 
-type Characteristic  = {
+export type Characteristic  = {
   all?: LineCharacteristic; // 所有行都必须为某个特征
   include?: LineCharacteristic[]; // 必须包含为某些特征的行
 }
 
-type Characteristics = {
+export type Characteristics = {
   [key in AlignType]: Characteristic;
+};
+
+export type StrandFlags = {
+  [key in Colum]?: string[];
 };

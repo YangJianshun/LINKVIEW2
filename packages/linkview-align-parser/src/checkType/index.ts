@@ -12,13 +12,11 @@ export default function checkType(fileName: string) {
     throw new Error(`${fileName} does not exist, please check!`);
 
     return eachLine(fileName, (line, lineIndex) => {
-      console.log(lineIndex, '~', line);
       headLines.push(line);
       if (lineIndex >= LINE_COUNT) return false;
     }, (line) => {
-      return line.startsWith('#');
+      return line.startsWith('#') || line === '';
     }).then(() => {
-      // return checkTypeByHeadLines(headLines);
-      return 'done'
+      return checkTypeByHeadLines(headLines);
     });    
 }

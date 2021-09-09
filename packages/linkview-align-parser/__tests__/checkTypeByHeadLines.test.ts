@@ -1,4 +1,5 @@
-import { AlignType } from '../src/checkType/constants';
+import { AlignType } from '../src/@types/characteristics';
+
 import characteristics from '../src/checkType/characteristics';
 import { checkLine } from '../src/checkType/checkTypeByHeadLines';
 
@@ -55,7 +56,8 @@ describe('standard alignments 每行合法性校验 单元测试', () => {
 
 describe('blastn alignments 每行合法性校验 单元测试', () => {
   test('blastn: 常规行', () => {
-    const line = 'ctg2\tctg1\t99.10\t5250\t25\t12\t9256\t14492\t8053\t13293\t0.0\t1.395e+05';
+    const line =
+      'ctg2\tctg1\t99.10\t5250\t25\t12\t9256\t14492\t8053\t13293\t0.0\t1.395e+05';
     expect(checkLine(line, characteristics[AlignType.BLAST].all!)).toBe(true);
   });
 
@@ -187,5 +189,52 @@ describe('NUCMER_B alignments 每行合法性校验 单元测试', () => {
     expect(checkLine(line, characteristics[AlignType.NUCMER_B].all!)).toBe(
       false
     );
+  });
+});
+
+describe('others 单行校验', () => {
+  test('startsWith', () => {
+    const line = 'NUCMER';
+    expect(
+      checkLine(line, {
+        startsWith: 'NUCMER',
+      })
+    ).toBe(true);
+  });
+
+  test('content', () => {
+    const line =
+      '    [S1]     [E1]  |     [S2]     [E2]  |  [LEN 1]  [LEN 2]  |  [% IDY]  |  [LEN R]  [LEN Q]  |  [COV R]  [COV Q]  | [TAGS]';
+    expect(
+      checkLine(line, {
+        content: ['[S1]', '[TAGS]', '|'],
+      })
+    ).toBe(true);
+  });
+
+  test('content exclude', () => {
+    const line =
+      '    [S1]     [E1]  |     [S2]     [E2]  |  [LEN 1]  [LEN 2]  |  [% IDY]  |  [LEN R]  [LEN Q]  |  [COV R]  [COV Q]  | [TAGS]';
+    expect(
+      checkLine(line, {
+        content: ['[S1]', '[TAGS]'],
+        exclude: {
+          content: '|',
+        },
+      })
+    ).toBe(false);
+  });
+
+  test('content exclude', () => {
+    const line =
+      '[S1]	[E1]	[S2]	[E2]	[LEN 1]	[LEN 2]	[% IDY]	[LEN R]	[LEN Q]	[COV R]	[COV Q]	[TAGS]';
+    expect(
+      checkLine(line, {
+        content: ['[S1]', '[TAGS]'],
+        exclude: {
+          content: '|',
+        },
+      })
+    ).toBe(true);
   });
 });

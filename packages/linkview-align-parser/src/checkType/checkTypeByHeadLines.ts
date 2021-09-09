@@ -1,13 +1,15 @@
 import characteristics from './characteristics';
-import { AlignType, numberColumsSet, strandFlags } from './constants';
+import { numberColumsSet, strandFlags } from './constants';
 import { isNumber } from '../utils/number';
 import { allTrue } from '../utils/array';
+import { AlignType, LineCharacteristic } from '../@types/characteristics';
+
 
 export function checkLine(
   line: string,
   lineCharacteristic: LineCharacteristic
 ): boolean {
-  const { split, columns, columnCount } = lineCharacteristic;
+  const { split, columns, columnCount, startsWith, endsWith, content, exclude } = lineCharacteristic;
   const lineMatchConditions: boolean[] = [];
   if (split) {
     line = line.trim();
@@ -16,8 +18,6 @@ export function checkLine(
       (columnCount instanceof Array
         ? lineMatchConditions.push(columnCount.includes(items.length))
         : lineMatchConditions.push(items.length === columnCount));
-    console.log(items.length, columnCount, lineMatchConditions);
-    console.log(items);
     if (columns) {
       for (let index in columns) {
         const item = items[index];
@@ -30,31 +30,46 @@ export function checkLine(
         lineMatchConditions.push(isNumber(item));
       }
     }
-    console.log(lineMatchConditions, allTrue(lineMatchConditions));
-    return allTrue(lineMatchConditions);
   }
-  return false;
+  if (startsWith) {
+    lineMatchConditions.push(line.startsWith(startsWith));
+  }
+  if (endsWith) {
+    lineMatchConditions.push(line.endsWith(endsWith));
+  }
+  if (content) {
+    Array.from(content).forEach(contentString => {
+      lineMatchConditions.push(line.indexOf(contentString) >= 0);
+    })
+  }
+  if (exclude) {
+    const lineCharacteristicExclude = exclude
+    lineMatchConditions.push(!checkLine(line, lineCharacteristicExclude));
+  }
+  return allTrue(lineMatchConditions);
 }
 
 export default function checkTypeByHeadLines(headLines: string[]) {
-  for (let alignType in characteristics) {
-    const characteristic = characteristics[alignType];
+  for (const alignType in characteristics) {
+    if (alignType === AlignType.UNKNOWN) continue
+    const characteristic = characteristics[alignType as AlignType];
     const matchConditions: boolean[] = [];
     if (characteristic.all) {
       headLines.forEach((line) => {
         matchConditions.push(checkLine(line, characteristic.all!));
       });
-    } else {
     }
+    if (characteristic.include) {
+      characteristic.include.forEach( lineCharacteristic => {
+        const matchCondition = headLines.findIndex(line => checkLine(line, lineCharacteristic)) > 0
+        matchConditions.push(matchCondition);
+      })
+    }
+    if (allTrue(matchConditions)) {
+      return alignType as AlignType;
+    }
+
   }
+  return AlignType.UNKNOWN;
 }
 
-// const headLines = [
-//   'ctg2	Sep 04 2021	14510784	NUCMER	/path/to/ctg1.fa	ctg1	7636865	7638890	312202	314269	90.199814	90.199814	2026	0	0	NULL	0	Plus	18585056	0	0',
-// ];
-
-// for (let line of headLines) {
-//   let res = checkLine(line, characteristics[AlignType.NUCMER_B].all!);
-//   console.log(line);
-//   console.log(res);
-// }

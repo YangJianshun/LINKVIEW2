@@ -1,11 +1,4 @@
-export enum AlignType {
-  STANDARD,
-  BLAST,
-  MINIMAP,
-  NUCMER,
-  NUCMER_T,
-  NUCMER_B,
-}
+import { Colum, StrandFlags } from '../@types/characteristics';
 
 export const numberColums: Colum[] = [
   'start1',
@@ -20,10 +13,6 @@ export const numberColums: Colum[] = [
   'bitScore',
   'otherNumber',
 ];
-
-type StrandFlags = {
-  [key in Colum]?: string[];
-};
 
 export const strandFlags: StrandFlags = {
   minimapStrand: ['+', '-'],
