@@ -1,0 +1,4 @@
+
+const parserCreater = (parserOpt) => (line) => {
+  
+}

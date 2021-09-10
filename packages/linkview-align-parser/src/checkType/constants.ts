@@ -1,6 +1,6 @@
-import { Colum, StrandFlags } from '../@types/characteristics';
+import { Column, StrandFlags } from '../@types/characteristics';
 
-export const numberColums: Colum[] = [
+export const numberColumns: Column[] = [
   'start1',
   'end1',
   'len1',
@@ -19,4 +19,4 @@ export const strandFlags: StrandFlags = {
   nucmerStrand: ['Plus', 'Minus'],
 };
 
-export const numberColumsSet = new Set(numberColums);
+export const numberColumnsSet = new Set(numberColumns);

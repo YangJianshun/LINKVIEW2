@@ -1,5 +1,5 @@
 import characteristics from './characteristics';
-import { numberColumsSet, strandFlags } from './constants';
+import { numberColumnsSet, strandFlags } from './constants';
 import { isNumber } from '../utils/number';
 import { allTrue } from '../utils/array';
 import { AlignType, LineCharacteristic } from '../@types/characteristics';
@@ -21,12 +21,12 @@ export function checkLine(
     if (columns) {
       for (let index in columns) {
         const item = items[index];
-        const colum = columns[index];
+        const column = columns[index];
 
-        strandFlags[colum] &&
-          lineMatchConditions.push(strandFlags[colum]!.includes(item));
+        strandFlags[column] &&
+          lineMatchConditions.push(strandFlags[column]!.includes(item));
 
-        if (!numberColumsSet.has(colum)) continue;
+        if (!numberColumnsSet.has(column)) continue;
         lineMatchConditions.push(isNumber(item));
       }
     }

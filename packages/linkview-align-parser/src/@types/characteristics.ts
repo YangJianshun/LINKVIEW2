@@ -10,7 +10,7 @@ export enum AlignType {
   NUCMER_B = '6',
 }
 
-export type Colum =
+export type Column =
   | 'ctg1'
   | 'start1'
   | 'end1'
@@ -37,7 +37,7 @@ export type LineCharacteristic = {
   split?: string | RegExp;
   columnCount?: number | number[];
   columns?: {
-    [index: number]: Colum;
+    [index: number]: Column;
   };
   exclude?: LineCharacteristic
 }
@@ -52,5 +52,5 @@ export type Characteristics = {
 };
 
 export type StrandFlags = {
-  [key in Colum]?: string[];
+  [key in Column]?: string[];
 };
