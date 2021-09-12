@@ -1,9 +1,9 @@
 import characteristics from '../checkType/characteristics';
 import { AlignType, LineCharacteristic, Column } from '../@types/characteristics';
-import { checkLine } from './checkTypeByHeadLines';
+import { ParserOpt } from '../@types/parser';
 // import 
 
-const calcNucmerParseOpt = (headLines: string[]) => {
+const calcNucmerParseOpt = (headLines: string[]): ParserOpt => {
   const filters: LineCharacteristic[] = [
     {startsWith: 'NUCMER', endsWith: 'NUCMER'},
     {startsWith: '/'},
@@ -12,7 +12,7 @@ const calcNucmerParseOpt = (headLines: string[]) => {
   ]
   const split: string | RegExp = /\s+\|\s+|\s+/;
   const splitT: string | RegExp = /\s+/;
-  const parseOpt = {
+  const parseOpt: ParserOpt = {
     split: split as string | RegExp,
     filters,
     columns: [] as Column[],
@@ -43,7 +43,7 @@ const calcNucmerParseOpt = (headLines: string[]) => {
       const tagsIndex = tagArr!.indexOf('[TAGS]');
       tagsIndex >= 0 && tagArr!.splice(tagsIndex, 1, '[TAG1]', '[TAG2]');
       tagArr!.forEach(tag => {
-        parseOpt.columns.push(columnsMap[tag]);
+        (parseOpt.columns as Column[]).push(columnsMap[tag]);
       })
       return true;
     }
@@ -52,7 +52,7 @@ const calcNucmerParseOpt = (headLines: string[]) => {
   return parseOpt;
 }
 
-const getParseOptions = (alignType: AlignType, headLines: string[]) => {
+const getParseOptions = (alignType: AlignType, headLines: string[]): ParserOpt => {
   switch (alignType) {
     case AlignType.UNKNOWN:
       return null
@@ -61,8 +61,8 @@ const getParseOptions = (alignType: AlignType, headLines: string[]) => {
     case AlignType.MINIMAP:
     case AlignType.NUCMER_B:
       return {
-        split: characteristics[alignType].all!.split,
-        columns: characteristics[alignType].all!.columns
+        split: characteristics[alignType].all!.split!,
+        columns: characteristics[alignType].all!.columns!,
       }
     case AlignType.NUCMER:
     case AlignType.NUCMER_T:

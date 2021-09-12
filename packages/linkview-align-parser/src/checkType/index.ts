@@ -28,8 +28,3 @@ export default function checkType(fileName: string) {
     };
   });
 }
-
-// (async () => {
-//   const res = await(checkType('../../__tests__/alignments/alignments.standard.tab'));
-//   console.log(res);
-// })()
