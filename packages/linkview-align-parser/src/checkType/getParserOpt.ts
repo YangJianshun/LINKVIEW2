@@ -1,7 +1,6 @@
 import characteristics from '../checkType/characteristics';
 import { AlignType, LineCharacteristic, Column } from '../@types/characteristics';
 import { ParserOpt } from '../@types/parser';
-// import 
 
 const calcNucmerParseOpt = (headLines: string[]): ParserOpt => {
   const filters: LineCharacteristic[] = [

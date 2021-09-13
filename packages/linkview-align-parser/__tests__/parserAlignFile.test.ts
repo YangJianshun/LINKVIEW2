@@ -13,7 +13,7 @@ describe('parser test', () => {
     const { alignType, parserOpt } = await checkType(fileName);
     const parser = parserCreater(parserOpt);
     const filter = filterCreater(parserOpt ? parserOpt.filters: null);
-    const alignments = await parseAlignFile(fileName, parser, filter);
+    const { alignments } = await parseAlignFile(fileName, parser, filter);
     // console.log(alignments);
     expect((alignments as any[]).length).toBe(10);
   });
@@ -26,7 +26,7 @@ describe('parser test', () => {
     const { alignType, parserOpt } = await checkType(fileName);
     const parser = parserCreater(parserOpt);
     const filter = filterCreater(parserOpt ? parserOpt.filters: null);
-    const alignments = await parseAlignFile(fileName, parser, filter);
+    const { alignments } = await parseAlignFile(fileName, parser, filter);
     // console.log(alignments);
     expect((alignments as any[]).length).toBe(5);
   });
@@ -39,7 +39,7 @@ describe('parser test', () => {
     const { alignType, parserOpt } = await checkType(fileName);
     const parser = parserCreater(parserOpt);
     const filter = filterCreater(parserOpt ? parserOpt.filters: null);
-    const alignments = await parseAlignFile(fileName, parser, filter);
+    const { alignments } = await parseAlignFile(fileName, parser, filter);
     // console.log(alignments);
     expect((alignments as any[]).length).toBe(6);
   });
@@ -52,7 +52,7 @@ describe('parser test', () => {
     const { alignType, parserOpt } = await checkType(fileName);
     const parser = parserCreater(parserOpt);
     const filter = filterCreater(parserOpt ? parserOpt.filters: null);
-    const alignments = await parseAlignFile(fileName, parser, filter);
+    const { alignments } = await parseAlignFile(fileName, parser, filter);
     // console.log(alignments);
     expect((alignments as any[]).length).toBe(10);
   });
@@ -65,7 +65,7 @@ describe('parser test', () => {
     const { alignType, parserOpt } = await checkType(fileName);
     const parser = parserCreater(parserOpt);
     const filter = filterCreater(parserOpt ? parserOpt.filters: null);
-    const alignments = await parseAlignFile(fileName, parser, filter);
+    const { alignments } = await parseAlignFile(fileName, parser, filter);
     // console.log(alignments);
     expect((alignments as any[]).length).toBe(10);
   });
@@ -78,7 +78,7 @@ describe('parser test', () => {
     const { alignType, parserOpt } = await checkType(fileName);
     const parser = parserCreater(parserOpt);
     const filter = filterCreater(parserOpt ? parserOpt.filters: null);
-    const alignments = await parseAlignFile(fileName, parser, filter);
+    const { alignments } = await parseAlignFile(fileName, parser, filter);
     // console.log(alignments);
     expect((alignments as any[]).length).toBe(5);
   });

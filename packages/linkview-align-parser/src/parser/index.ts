@@ -6,12 +6,13 @@ import { LineCharacteristic } from '../@types/characteristics';
 import { isNumber } from '../utils/number';
 import { average } from '../utils/array';
 import { checkLine } from '../checkType/checkTypeByHeadLines';
+
 // 根据 parserOpt，生成一个解析函数，把每一行解析成固定的格式
 export const parserCreater = (parserOpt: ParserOpt) => (line: string) => {
   line = line.trim();
   if (!parserOpt) return null;
-  const { split, columns, filters } = parserOpt;
-  const items = line.split(parserOpt.split);
+  const { split, columns } = parserOpt;
+  const items = line.split(split);
   const alignment: Alignment = {
     ctg1: '',
     start1: 0,
@@ -39,6 +40,8 @@ export const parserCreater = (parserOpt: ParserOpt) => (line: string) => {
         'identity',
         'evalue',
         'bitScore',
+        'len1',
+        'len2',
       ].includes(colum)
     ) {
       if (!isNumber(value)) {
@@ -66,6 +69,7 @@ export const parserCreater = (parserOpt: ParserOpt) => (line: string) => {
     } else if (colum === 'minimapStrand' && value === '-') {
       shouldReverse = true;
     }
+
   }
   if (shouldReverse) {
     const { start1, end1 } = alignment;
@@ -103,11 +107,19 @@ const parseAlignFile = (
   filterAlign: ((alignment: Alignment) => boolean )| null = null
 ) => {
   const alignments: Alignment[] = [];
+  const lenInfo: {[ctg: string]: number} = {}
   return eachLine(
     fileName,
     (line) => {
       // 获取每一行的解析结果
       const alignment = parser(line);
+      if (alignment) {
+        const {len1, len2, ctg1, ctg2} = alignment;
+        if (len1) lenInfo[ctg1] = len1
+        if (len2) lenInfo[ctg2] = len2
+        delete alignment.len1;
+        delete alignment.len2;
+      }
 
       alignment && // 这个 alignment 不为 null
         (filterAlign ? !filterAlign(alignment) : true) && // 这个 alignment 不被过滤
@@ -120,12 +132,8 @@ const parseAlignFile = (
   )
     .then(() => {
       // 读完了
-      return alignments;
+      return { alignments, lenInfo };
     })
-    .catch((err) => {
-      // 出错了
-      console.error(err);
-    });
 };
 
 export default parseAlignFile;

@@ -12,4 +12,6 @@ export type Alignment = {
   identity?: number;
   evalue?: number;
   bitScore?: number;
+  len1?: number;
+  len2?: number;
 };
