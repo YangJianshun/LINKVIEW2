@@ -23,7 +23,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest test --coverage",
-    "build": "rm -f ./lib/* && tsc",
+    "build": "rm -rf ./lib/* && tsc",
     "link": "lerna link"
   },
   "bugs": {

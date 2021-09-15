@@ -113,6 +113,7 @@ const parseAlignFile = (
     (line) => {
       // 获取每一行的解析结果
       const alignment = parser(line);
+      // 获取 ctg 长度信息
       if (alignment) {
         const {len1, len2, ctg1, ctg2} = alignment;
         if (len1) lenInfo[ctg1] = len1
