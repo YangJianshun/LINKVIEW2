@@ -1,0 +1,10 @@
+# BLASTN 2.2.28+
+# Query: ctg2
+# Subject: ctg1
+# Fields: query id, subject id, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+ctg2	ctg1	99.10	5250	25	12	9256	14492	8053	13293	2e-5	1.395e+05
+ctg2	ctg1	99.05	2639	15	6	1	2633	1	2635	0.0	4726
+ctg2	ctg1	99.51	1023	3	2	2621	3642	7042	8063	0.0	1860
+ctg2	ctg1	97.48	992	7	9	16460	17451	20448	21421	0.0	1677
+ctg2	ctg1	100.00	586	0	0	15890	16475	13293	13878	0.0	1083

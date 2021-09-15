@@ -23,13 +23,16 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest test --coverage",
-    "build": "rm -f ./lib/* && tsc",
+    "build": "rm -rf ./lib/* && tsc",
     "link": "lerna link"
   },
   "bugs": {
     "url": "https://github.com/YangJianshun/LINKVIEW2/issues"
   },
   "devDependencies": {
-    "jest": "^27.1.0"
-  }
+    "@types/line-reader": "^0.0.34",
+    "jest": "^27.1.0",
+    "line-reader": "^0.4.0"
+  },
+  "dependencies": {}
 }
