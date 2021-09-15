@@ -1,7 +1,7 @@
 import alignParser from './main';
 
 export * from './@types';
-
+export * from './calculateSubAlign';
 export default alignParser;
 
 // alignParser('./__tests__/alignments/alignments.Br.nucmer', {

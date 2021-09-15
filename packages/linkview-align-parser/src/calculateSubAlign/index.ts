@@ -2,7 +2,7 @@ import { Alignment } from '../@types/alignment';
 import { intersection } from '../utils/internal';
 
 // 根据 真实 alignment 计算出，在给定展示区间的 alignment
-function calculateSubAlign(
+export function calculateSubAlign(
   alignment: Alignment,
   displayStart1: number,
   displayEnd1: number,
@@ -14,10 +14,13 @@ function calculateSubAlign(
   const displayEnd1Position = calculatePosition(start1, end1, displayEnd1);
   const displayStart2Position = calculatePosition(start2, end2, displayStart2);
   const displayEnd2Position = calculatePosition(start2, end2, displayEnd2);
-  const [displayStartPosition, displayEndPosition] = intersection(
+  console.log(displayStart1Position, displayEnd1Position, displayStart2Position, displayEnd2Position)
+  const displayPosions = intersection(
     [displayStart1Position, displayEnd1Position],
     [displayStart2Position, displayEnd2Position]
   );
+  if (displayPosions.length === 0) return null;
+  const [displayStartPosition, displayEndPosition] = displayPosions
   displayStart1 = position2Site(start1, end1, displayStartPosition);
   displayEnd1 = position2Site(start1, end1, displayEndPosition);
   displayStart2 = position2Site(start2, end2, displayStartPosition);
@@ -31,8 +34,8 @@ function calculateSubAlign(
 }
 
 function calculatePosition(start: number, end: number, point: number) {
-  if (point < start) return 0;
-  if (point > end) return 1;
+  if (point < Math.min(start, end)) return 0;
+  if (point > Math.max(start, end)) return 1;
   return (Math.abs(point - start) + 1) / (Math.abs(end - start) + 1);
 }
 
@@ -87,18 +90,18 @@ function position2Site(start: number, end: number, position: number) {
 const alignment: Alignment = {
   start1: 101,
   end1: 200,
-  start2: 201,
-  end2: 300,
+  start2: 300,
+  end2: 201,
   alignLen: 100,
   color: 'red',
   opacity: 1,
   ctg1: 'ctg1',
   ctg2: 'ctg2',
 };
-const displayStart1 = 1;
-const displayEnd1 = 115;
-const displayStart2 = 211;
-const displayEnd2 = 1000;
+const displayStart1 = 150;
+const displayEnd1 = 200;
+const displayStart2 = 231;
+const displayEnd2 = 300;
 
 const alignDisplay = calculateSubAlign(
   alignment,
