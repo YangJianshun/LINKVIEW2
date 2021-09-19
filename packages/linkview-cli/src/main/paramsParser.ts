@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { Command } from 'commander';
 import chalk from 'chalk';
+import { Options } from '../@types/options';
 
 function toArray(val: any | any[]) {
   if (val instanceof Array) {
@@ -57,7 +58,7 @@ function parseParamSingleFile(fileName: string, param: string) {
     fileName,
     false,
     `Illegal argument of option '${param}'`
-  );
+  )[0];
 }
 
 function parseParamMultipleFile(fileNames: string | string[], param: string) {
@@ -72,7 +73,7 @@ function parseParamInput(fileNames: string | string[]) {
   return parseParamFiles(fileNames, true, `Illegal argument`);
 }
 
-export default function paramsParser() {
+export default function paramsParser(): Options {
   const program = new Command();
   if (process.argv.indexOf('-h') >= 0 || process.argv.indexOf('--help') >= 0) {
     process.argv.splice(2, process.argv.length, '-h');
@@ -208,7 +209,13 @@ export default function paramsParser() {
   );
 
   program.parse(process.argv);
-
+  
   const options = program.opts();
-  return Object.assign(options, { inputs: parseParamInput(program.args) });
+  const use = function (this: Options, plugin: (...args: any) => void) {
+    plugin.apply(this);
+  }
+  return Object.assign(options, {
+    inputs: parseParamInput(program.args),
+    use,
+  }) as Options;
 }

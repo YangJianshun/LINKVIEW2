@@ -8,7 +8,13 @@ export function withErrorConsole(fn: (...args: any) => any) {
       if (error instanceof Error) {
         error = error.message.replace(/^Error: /, '');
       }
-      console.log(chalk.red(`error: ${error}`))
+      console.log(`error: ${error}`)
     }
   }
+}
+
+export function errorPos(str: string, errorStr: string) {
+  const position = str.indexOf(errorStr);
+  str = str.replace(errorStr, chalk.bgYellow.red(errorStr))
+  return `\t${str}\n\t${' '.repeat(position)}${chalk.yellow('^')}`;
 }
