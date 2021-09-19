@@ -92,3 +92,7 @@ typings/
 .jest
 
 .idea
+
+# self test dir
+
+self_test/

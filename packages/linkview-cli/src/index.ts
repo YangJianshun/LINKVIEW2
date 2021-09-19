@@ -1,5 +1,6 @@
 #! /usr/bin/env node
 
-import alignParser, { AlignType, calculateSubAlign } from '@linkview/linkview-align-parser';
+import main, { withErrorConsole } from './main';
 
-console.log(AlignType);
+withErrorConsole(main)();
+
