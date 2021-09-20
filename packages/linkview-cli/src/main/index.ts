@@ -6,7 +6,7 @@ import alignParser, {
 } from '@linkview/linkview-align-parser';
 
 import paramsParser from './paramsParser';
-import layoutCreater from '../plugins/layoutCreater';
+import { layoutCreater, svgCreater } from '../plugins';
 
 export * from '../utils/error';
 
@@ -18,4 +18,7 @@ export default function main() {
   // 根据 karyotype 文件，生成绘图的布局，若没有 karyotype 文件则返回空的绘图布局
   options.use(layoutCreater);
   console.log(options.layout)
+
+  options.use(svgCreater);
+  console.log(options.svg)
 }

@@ -185,7 +185,12 @@ export default function paramsParser(): Options {
       (svgHeight) => parseParamInt(svgHeight, '--svg_height <number>'),
       800
     )
-    .option('--svg_width <number>', 'height of svg, default=800', parseInt, 800)
+    .option(
+      '--svg_width <number>',
+      'width of svg, default=1000',
+      parseInt,
+      1000
+    )
     .option(
       '--svg_space <number>',
       'The proportion of white space left and right, default=0.2',
@@ -209,11 +214,11 @@ export default function paramsParser(): Options {
   );
 
   program.parse(process.argv);
-  
+
   const options = program.opts();
   const use = function (this: Options, plugin: (...args: any) => void) {
     plugin.apply(this);
-  }
+  };
   return Object.assign(options, {
     inputs: parseParamInput(program.args),
     use,

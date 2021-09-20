@@ -3,7 +3,7 @@ import { Options } from '../../@types/options';
 import { Layout } from '../../@types/layout';
 import { errorPos } from '../../utils/error';
 
-export default function layoutCreater(this: Options) {
+export function layoutCreater(this: Options) {
   const options = this;
   const layout: Layout = [];
   const { karyotype } = options;

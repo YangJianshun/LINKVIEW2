@@ -20,5 +20,6 @@ export type Options = {
   chro_axis?: boolean;
   parameter?: string;
   layout: Layout;
+  svg: string;
   use: (plugin: (...args: any) => void) => void;
 }
