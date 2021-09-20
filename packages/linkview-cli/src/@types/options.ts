@@ -19,6 +19,7 @@ export type Options = {
   gff?: string[];
   scale?: number;
   chro_axis?: boolean;
+  align_left?: boolean;
   parameter?: string;
   layout: Layout;
   svg?: string;

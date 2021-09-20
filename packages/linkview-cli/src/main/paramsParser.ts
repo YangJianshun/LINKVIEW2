@@ -176,6 +176,10 @@ export default function paramsParser(): Options {
       0.2
     )
     .option(
+      '--align_left',
+      'Align left'
+    )
+    .option(
       '-p --parameter <file>',
       'Specify the parameters for each row separately in a file',
       (parameter) => parseParamSingleFile(parameter, '-p --parameter <file>')
