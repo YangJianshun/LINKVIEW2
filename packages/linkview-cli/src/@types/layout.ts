@@ -1,14 +1,18 @@
+import { SvgProps } from './svgTemplate';
+
 export type Highlight = {
-  start: number,
-  end: number,
+  start: number;
+  end: number;
   color: string;
-}
+};
 export type LayoutItem = {
   ctg: string;
   start: number;
   end: number;
-  highlights?: Highlight[]
-}
+  highlights?: Highlight[];
+  svgHeight?: number;
+  svgProps?: SvgProps;
+};
 
 export type LayoutLine = LayoutItem[];
 

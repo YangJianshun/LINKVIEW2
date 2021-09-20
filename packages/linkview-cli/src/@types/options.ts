@@ -11,15 +11,16 @@ export type Options = {
   gap_length: number;
   svg_height: number;
   svg_width: number;
+  svg_content_width: number;
   svg_space: number;
   karyotype?: string;
   highlight?: string[];
   hl_min1px?: boolean;
   gff?: string[];
-  scale?: string;
+  scale?: number;
   chro_axis?: boolean;
   parameter?: string;
   layout: Layout;
-  svg: string;
+  svg?: string;
   use: (plugin: (...args: any) => void) => void;
 }

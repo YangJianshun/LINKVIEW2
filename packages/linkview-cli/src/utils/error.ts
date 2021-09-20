@@ -18,3 +18,7 @@ export function errorPos(str: string, errorStr: string) {
   str = str.replace(errorStr, chalk.bgYellow.red(errorStr))
   return `\t${str}\n\t${' '.repeat(position)}${chalk.yellow('^')}`;
 }
+
+export function warn(info: string) {
+  console.log(`warn: ${info}`);
+}

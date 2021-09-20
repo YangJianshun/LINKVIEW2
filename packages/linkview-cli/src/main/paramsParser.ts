@@ -111,7 +111,11 @@ export default function paramsParser(): Options {
       'One or multiple gff files, separated by commas.',
       (fileNames) => parseParamMultipleFile(fileNames, '-g --gff <file(s)>')
     )
-    .option('--scale [string]', 'Display scale bar.');
+    .option('--scale <number>', 'Physical distance (bp) represented by one pixel(px)', (scale) =>
+      parseParamInt(scale, '--scale <number>'),
+      0
+    )
+    .option('--show_scale [string]', 'Display scale bar.');
 
   program
     .option('\nFilter options:')
@@ -187,9 +191,9 @@ export default function paramsParser(): Options {
     )
     .option(
       '--svg_width <number>',
-      'width of svg, default=1000',
+      'width of svg, default=1200',
       parseInt,
-      1000
+      1200
     )
     .option(
       '--svg_space <number>',
@@ -222,5 +226,6 @@ export default function paramsParser(): Options {
   return Object.assign(options, {
     inputs: parseParamInput(program.args),
     use,
+    svg_content_width: options.svg_width * (1 - options.svg_space),
   }) as Options;
 }

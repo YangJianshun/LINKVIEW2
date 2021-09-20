@@ -6,7 +6,7 @@ import render from './render';
 
 export function svgCreater(this: Options) {
   const options = this;
-  const layoutSvgContent = layoutSvg(options.layout);
+  const layoutSvgContent = layoutSvg(options);
 
   const svgTemplate: SvgTemplate = [
     SVG_START,

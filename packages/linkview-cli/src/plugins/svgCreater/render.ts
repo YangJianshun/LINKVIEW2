@@ -20,7 +20,12 @@ export default function render(svgTemplate: SvgTemplate, dataSource: any) {
     if (typeof svgTemplateItem === 'string') {
       svgContents.push(renderItem(svgTemplateItem, dataSource))
     } else {
-      svgContents.push(svgTemplateItem.content);
+      const { content } = svgTemplateItem;
+      if (typeof content === 'string') {
+        svgContents.push(content);
+      } else {
+        svgContents.push(...content)
+      }
     }
   }
   return svgContents.join('\n');
