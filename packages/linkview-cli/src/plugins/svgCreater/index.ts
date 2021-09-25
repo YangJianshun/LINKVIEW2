@@ -3,16 +3,15 @@ import layoutSvg from './layoutSvg';
 import { SVG_START, SVG_END } from './svgTemplates';
 import { SvgTemplate } from '../../@types/svgTemplate';
 import render from './render';
+import labelSvg from './labelSvg';
 
-export function svgCreater(this: Options) {
+export default function svgCreater(this: Options) {
   const options = this;
-  const layoutSvgContent = layoutSvg(options);
+  options.use(layoutSvg);
+  options.use(labelSvg);
 
-  const svgTemplate: SvgTemplate = [
-    SVG_START,
-    {content: layoutSvgContent},
-    SVG_END
-  ];
-
-  options.svg = render(svgTemplate, options);
+  options.svg_template?.unshift(SVG_START);
+  options.svg_template?.push(SVG_END);
+  options.svg = render(options.svg_template!, options);
+  console.log(options.svg);
 }

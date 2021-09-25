@@ -14,7 +14,7 @@ function toArray(val: any | any[]) {
 }
 
 function parseParamInt(val: string, param: string) {
-  const result = parseInt(val);
+  const result = parseInt(String(Number(val)));
   if (isNaN(result))
     throw new Error(
       `Illegal argument of option '${param}', ${val} is not an integer`
@@ -22,8 +22,8 @@ function parseParamInt(val: string, param: string) {
   return result;
 }
 
-function parseParamFloat(val: string, param: string) {
-  const result = parseFloat(val);
+export function parseParamFloat(val: string, param: string) {
+  const result = Number(val);
   if (isNaN(result))
     throw new Error(
       `Illegal argument of option '${param}', ${val} is not a number`
@@ -73,6 +73,16 @@ function parseParamInput(fileNames: string | string[]) {
   return parseParamFiles(fileNames, true, `Illegal argument`);
 }
 
+export function parseParamLabelPos(labelPos: string, param: string) {
+  labelPos = labelPos.toLowerCase();
+  if (!['left', 'right'].includes(labelPos)) {
+    throw new Error(
+      `Illegal argument of option '${param}', Expected 'left' or 'righ, but received '${labelPos}'`
+    );
+  }
+  return labelPos;
+}
+
 export default function paramsParser(): Options {
   const program = new Command();
   if (process.argv.indexOf('-h') >= 0 || process.argv.indexOf('--help') >= 0) {
@@ -111,8 +121,10 @@ export default function paramsParser(): Options {
       'One or multiple gff files, separated by commas.',
       (fileNames) => parseParamMultipleFile(fileNames, '-g --gff <file(s)>')
     )
-    .option('--scale <number>', 'Physical distance (bp) represented by one pixel(px)', (scale) =>
-      parseParamInt(scale, '--scale <number>'),
+    .option(
+      '--scale <number>',
+      'Physical distance (bp) represented by one pixel(px)',
+      (scale) => parseParamInt(scale, '--scale <number>'),
       0
     )
     .option('--show_scale [string]', 'Display scale bar.');
@@ -154,7 +166,7 @@ export default function paramsParser(): Options {
         parseParamInt(chroThickness, '--chro_thickness <number>'),
       15
     )
-    .option('-n, --no_label', 'Do not show label(s)')
+    .option('-n, --no_label', 'Do not show label(s)', false)
     .option(
       '--label_font_size <number>',
       'Font size of the label, default=18',
@@ -164,21 +176,38 @@ export default function paramsParser(): Options {
     )
     .option(
       '--label_angle <number>',
-      'Label rotation angle, default=0',
+      'Label rotation angle, default=30',
       (labelAngle) => parseParamInt(labelAngle, '--label_angle <number>'),
+      30
+    )
+    .option(
+      '--label_pos <left | right>',
+      'Label position, left or right, default=right',
+      (labelPos) => parseParamLabelPos(labelPos, '--label_pos <left | right>'),
+      'right'
+    )
+    .option(
+      '--label_x_offset <number>',
+      'Label X offset, default=0',
+      (labelXOffset) =>
+        parseParamInt(labelXOffset, '--label_x_offset <number>'),
       0
     )
-    .option('--chro_axis', 'Display the axis')
+    .option(
+      '--label_y_offset <number>',
+      'Label Y offset, default=0',
+      (labelYOffset) =>
+        parseParamInt(labelYOffset, '--label_y_offset <number>'),
+      0
+    )
+    .option('--chro_axis', 'Display the axis', false)
     .option(
       '--gap_length <number>',
       ' Length of gap between two chromosomes, if > 1,It represents Physical length, if<1, It represents total_length_of_this_line * this. default=0.2',
       (gapLength) => parseParamFloat(gapLength, '--gap_length <number>'),
       0.2
     )
-    .option(
-      '--align_left',
-      'Align left'
-    )
+    .option('--align_left', 'Align left', false)
     .option(
       '-p --parameter <file>',
       'Specify the parameters for each row separately in a file',

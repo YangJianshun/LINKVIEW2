@@ -12,6 +12,7 @@ export type LayoutItem = {
   highlights?: Highlight[];
   svgHeight?: number;
   svgProps?: SvgProps;
+  getSvgPos?: (xPos: number, yPos: 'top' | 'bottom') => [svgXPos: number, svgYPos: number];
 };
 
 export type LayoutLine = LayoutItem[];

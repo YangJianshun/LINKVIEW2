@@ -13,10 +13,19 @@ export function withErrorConsole(fn: (...args: any) => any) {
   }
 }
 
-export function errorPos(str: string, errorStr: string) {
-  const position = str.indexOf(errorStr);
-  str = str.replace(errorStr, chalk.bgYellow.red(errorStr))
-  return `\t${str}\n\t${' '.repeat(position)}${chalk.yellow('^')}`;
+// 如果传了 subStr，必须从 subStr 里面找，
+// 比如 'align_left=true gap_length=true' 里面找 true，指定 subStr 是 'gap_length=true' 的话，只找到第二个
+export function errorPos(str: string, errorStr: string, subStr? :string) {
+  let baseIndex = 0;
+  let searchStr = str;
+  if (subStr) {
+    baseIndex = str.indexOf(subStr);
+    searchStr = subStr
+  }
+  const position = searchStr.indexOf(errorStr) + baseIndex;
+  const errorStrLen = errorStr.length;
+  str = str.slice(0, position) + chalk.bgYellow.red(errorStr) + str.slice(position + errorStrLen)
+  return `${str}\n${' '.repeat(position)}${chalk.yellow('^')}`;
 }
 
 export function warn(info: string) {
