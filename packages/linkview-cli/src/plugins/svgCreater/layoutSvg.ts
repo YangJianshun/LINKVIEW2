@@ -95,7 +95,18 @@ export default function layoutSvg(this: Options) {
     const drawOptionsItem = drawOptions![index];
     const {gapLen, totalGapLen, totalLen, len} = calculateLineLen(layoutLine, drawOptionsItem);
     let leftCur = options.svg_width * options.svg_space / 2
-    if (!drawOptionsItem.align_left) leftCur += (options.svg_content_width - totalLen * scale) / 2;
+    switch (drawOptionsItem.align) {
+      case 'left':
+        break;
+      case 'center':
+        leftCur += (options.svg_content_width - totalLen * scale) / 2;
+        break;
+      case 'right':
+        leftCur += (options.svg_content_width - totalLen * scale);
+        break;
+      default:
+        break;
+    }
     layoutLine.forEach(layoutItem => {
       const { ctg, start, end, svgHeight: svgHeightItem } = layoutItem;
       const svgProps: SvgProps = {}

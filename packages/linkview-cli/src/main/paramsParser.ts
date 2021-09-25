@@ -73,15 +73,20 @@ function parseParamInput(fileNames: string | string[]) {
   return parseParamFiles(fileNames, true, `Illegal argument`);
 }
 
-export function parseParamLabelPos(labelPos: string, param: string) {
-  labelPos = labelPos.toLowerCase();
-  if (!['left', 'right'].includes(labelPos)) {
-    throw new Error(
-      `Illegal argument of option '${param}', Expected 'left' or 'righ, but received '${labelPos}'`
-    );
+function parseParamWithLimit(limits: string[]) {
+  return function (val: string, param: string) {
+    val = val.toLowerCase();
+    if (!limits.includes(val)) {
+      throw new Error(
+        `Illegal argument of option '${param}', Expected ${limits.join(' | ')}, but received '${val}'`
+      );
+    }
+    return val;
   }
-  return labelPos;
 }
+
+export const parseParamLabelPos = parseParamWithLimit(['left', 'center', 'right'])
+export const parseParamAlign = parseParamWithLimit(['left', 'center', 'right'])
 
 export default function paramsParser(): Options {
   const program = new Command();
@@ -207,7 +212,7 @@ export default function paramsParser(): Options {
       (gapLength) => parseParamFloat(gapLength, '--gap_length <number>'),
       0.2
     )
-    .option('--align_left', 'Align left', false)
+    .option('--align <center | left | right>', 'Align', (align) => parseParamAlign(align, '--align <center | left | right>'))
     .option(
       '-p --parameter <file>',
       'Specify the parameters for each row separately in a file',

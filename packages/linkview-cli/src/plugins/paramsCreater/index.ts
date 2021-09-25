@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { Options, DrawOptionsItem } from '../../@types/options';
 import { errorPos, warn } from '../../utils/error';
-import {parseParamFloat, parseParamLabelPos} from '../../main/paramsParser';
+import {parseParamFloat, parseParamLabelPos, parseParamAlign} from '../../main/paramsParser';
 
 const typoOfDrawOptions = {
   chro_thickness: 'number',
@@ -13,7 +13,7 @@ const typoOfDrawOptions = {
   label_y_offset: 'number',
   chro_axis: 'boolean',
   gap_length: 'number',
-  align_left: 'boolean',
+  align: 'string',
 }
 
 export default function paramsCreater(this: Options) {
@@ -36,7 +36,7 @@ export default function paramsCreater(this: Options) {
       label_y_offset: options.label_y_offset,
       chro_axis: options.chro_axis as boolean,
       gap_length: options.gap_length,
-      align_left: options.align_left as boolean,
+      align: options.align,
     }
     for (let item of items) {
       const [drawOption, value] = item.split('=');
@@ -60,6 +60,8 @@ export default function paramsCreater(this: Options) {
       } else if (typeOfDrawOption === 'string') {
         if (drawOption === 'label_pos') {
           convertValue = parseParamLabelPos(value, 'drawOption');
+        } else if (drawOption === 'align') {
+          convertValue = parseParamAlign(value, drawOption);
         }
       }
       } catch(error) {

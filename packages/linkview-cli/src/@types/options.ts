@@ -6,10 +6,10 @@ export type DrawOptionsItem = {
   no_label: boolean;
   label_font_size: number;
   label_angle: number;
-  label_pos: 'left' | 'right';
+  label_pos: 'center'| 'left' | 'right';
   chro_axis: boolean;
   gap_length: number;
-  align_left: boolean;
+  align: 'center' | 'left' | 'right';
   label_x_offset: number;
   label_y_offset: number;
 };
@@ -24,7 +24,7 @@ export type Options = {
   no_label: boolean;
   label_font_size: number;
   label_angle: number;
-  label_pos: 'left' | 'right';
+  label_pos: 'center'| 'left' | 'right';
   label_x_offset: number;
   label_y_offset: number;
   gap_length: number;
@@ -38,7 +38,7 @@ export type Options = {
   gff?: string[];
   scale?: number;
   chro_axis?: boolean;
-  align_left?: boolean;
+  align: 'center' | 'left' | 'right';
   parameter?: string;
   layout: Layout;
   svg_template?: SvgTemplate;
