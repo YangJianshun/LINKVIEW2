@@ -45,4 +45,6 @@ export type Options = {
   svg?: string;
   use: (plugin: (...args: any) => void) => void;
   drawOptions?: DrawOptionsItem[];
+  defualtDrawOptionsItem?: DrawOptionsItem;
+  getDrawOptionsItem?: (index: number) => DrawOptionsItem;
 };

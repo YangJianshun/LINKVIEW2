@@ -1,8 +1,8 @@
 {
-  "name": "@linkview/linkview-cli",
+  "name": "@linkview/linkview-core",
   "version": "0.0.0",
-  "description": "LINKVIEW 命令行工具",
-  "author": "YangJianshun <shunlintianxia@sina.com>",
+  "description": "> TODO: description",
+  "author": "YangJianshun <397441459@qq.com>",
   "homepage": "https://github.com/YangJianshun/LINKVIEW2#readme",
   "license": "ISC",
   "main": "lib/index.js",
@@ -14,7 +14,7 @@
     "lib"
   ],
   "publishConfig": {
-    "access": "public"
+    "registry": "https://npm.shopee.io/"
   },
   "repository": {
     "type": "git",
@@ -24,21 +24,16 @@
     "test": "jest",
     "test:coverage": "jest test --coverage",
     "build": "rm -rf ./lib/* && tsc",
-    "link": "npm link"
-  },
-  "bin": {
-    "LINKVIEW2": "./lib/index.js"
+    "link": "lerna link"
   },
   "bugs": {
     "url": "https://github.com/YangJianshun/LINKVIEW2/issues"
   },
   "dependencies": {
     "@linkview/linkview-align-parser": "^0.0.0",
-    "@linkview/linkview-core": "^0.0.0",
-    "chalk": "^4.1.2",
-    "commander": "^8.2.0"
+    "chalk": "^4.1.2"
   },
   "devDependencies": {
-    "jest": "^27.1.0"
+    "jest": "^27.2.4"
   }
 }

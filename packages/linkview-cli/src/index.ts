@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 
-import main, { withErrorConsole } from './main';
+import main from './main';
+import { withErrorConsole } from '@linkview/linkview-core';
 
 withErrorConsole(main)();
 

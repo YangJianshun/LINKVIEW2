@@ -4,10 +4,11 @@ import { SVG_LABEL } from './svgTemplates';
 
 export default function labelSvg(this: Options) {
   const options = this;
-  const { layout, drawOptions } = options;
+  const { layout } = options;
   let svgContents: string[] = [];
   layout.forEach((layoutLine, index) => {
-    const drawOptionsItem = drawOptions![index];
+    const drawOptionsItem = options.getDrawOptionsItem!(index);
+    if (drawOptionsItem.no_label) return;
     layoutLine.forEach((layoutItem) => {
       let [x, y] =
         drawOptionsItem.label_pos === 'left'

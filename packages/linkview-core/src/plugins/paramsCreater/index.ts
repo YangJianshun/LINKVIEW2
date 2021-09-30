@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { Options, DrawOptionsItem } from '../../@types/options';
 import { errorPos, warn } from '../../utils/error';
-import {parseParamFloat, parseParamLabelPos, parseParamAlign} from '../../main/paramsParser';
+import { parseParamFloat, parseParamLabelPos, parseParamAlign } from './utils';
 
 const typoOfDrawOptions = {
   chro_thickness: 'number',
@@ -20,24 +20,27 @@ export default function paramsCreater(this: Options) {
   const options = this;
   const drawOptions: DrawOptionsItem[] = []
   const { parameter } = options;
+  const defualtDrawOptionsItem = {
+    chro_thickness: options.chro_thickness,
+    no_label: options.no_label,
+    label_font_size: options.label_font_size,
+    label_angle: options.label_angle,
+    label_pos: options.label_pos,
+    label_x_offset: options.label_x_offset,
+    label_y_offset: options.label_y_offset,
+    chro_axis: options.chro_axis as boolean,
+    gap_length: options.gap_length,
+    align: options.align,
+  }
+  options.defualtDrawOptionsItem = defualtDrawOptionsItem;
+  options.getDrawOptionsItem = (index: number) => index in drawOptions! ? drawOptions![index] : defualtDrawOptionsItem!;
   if (!parameter) return;
   const content = fs.readFileSync(parameter).toString().trim();
   const lines = content.split('\n');
   for ( let index = 0, lineCount = lines.length; index < lineCount; index++) {
     const line = lines[index];
     const items = line.split(/\s+/);
-    const drawOptionsItem: DrawOptionsItem = {
-      chro_thickness: options.chro_thickness,
-      no_label: options.no_label,
-      label_font_size: options.label_font_size,
-      label_angle: options.label_angle,
-      label_pos: options.label_pos,
-      label_x_offset: options.label_x_offset,
-      label_y_offset: options.label_y_offset,
-      chro_axis: options.chro_axis as boolean,
-      gap_length: options.gap_length,
-      align: options.align,
-    }
+    const drawOptionsItem: DrawOptionsItem = {...defualtDrawOptionsItem};
     for (let item of items) {
       const [drawOption, value] = item.split('=');
       let convertValue: boolean | number | string = value;
@@ -76,3 +79,5 @@ export default function paramsCreater(this: Options) {
   options.drawOptions = drawOptions;
   // console.log(options.drawOptions);
 }
+
+export * from './utils';

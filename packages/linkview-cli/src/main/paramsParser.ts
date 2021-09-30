@@ -1,92 +1,17 @@
 import fs from 'fs';
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { Options } from '../@types/options';
+import {
+  Options,
+  parseParamSingleFile,
+  parseParamMultipleFile,
+  parseParamInt,
+  parseParamFloat,
+  parseParamLabelPos,
+  parseParamAlign,
+  parseParamInput,
+} from '@linkview/linkview-core';
 
-function toArray(val: any | any[]) {
-  if (val instanceof Array) {
-    return val;
-  } else if (val.length && !(typeof val === 'string')) {
-    return Array.from(val);
-  } else {
-    return [val];
-  }
-}
-
-function parseParamInt(val: string, param: string) {
-  const result = parseInt(String(Number(val)));
-  if (isNaN(result))
-    throw new Error(
-      `Illegal argument of option '${param}', ${val} is not an integer`
-    );
-  return result;
-}
-
-export function parseParamFloat(val: string, param: string) {
-  const result = Number(val);
-  if (isNaN(result))
-    throw new Error(
-      `Illegal argument of option '${param}', ${val} is not a number`
-    );
-  return result;
-}
-
-function parseParamFiles(
-  fileNames: string | string[],
-  allowMultiple: boolean = true,
-  errInfo: string
-) {
-  fileNames = toArray(fileNames);
-  if (allowMultiple) {
-    for (let index = 0, len = fileNames.length; index < len; index++) {
-      const fileName = fileNames[index];
-      const splitInputs = fileName.split(',');
-      fileNames.splice(index, 1, ...splitInputs);
-      index += splitInputs.length - 1;
-    }
-  }
-  for (let fileName of fileNames) {
-    if (!fs.existsSync(fileName)) {
-      throw new Error(`${errInfo}, ${fileName} not exist!`);
-    }
-  }
-  return fileNames;
-}
-
-function parseParamSingleFile(fileName: string, param: string) {
-  return parseParamFiles(
-    fileName,
-    false,
-    `Illegal argument of option '${param}'`
-  )[0];
-}
-
-function parseParamMultipleFile(fileNames: string | string[], param: string) {
-  return parseParamFiles(
-    fileNames,
-    true,
-    `Illegal argument of option '${param}'`
-  );
-}
-
-function parseParamInput(fileNames: string | string[]) {
-  return parseParamFiles(fileNames, true, `Illegal argument`);
-}
-
-function parseParamWithLimit(limits: string[]) {
-  return function (val: string, param: string) {
-    val = val.toLowerCase();
-    if (!limits.includes(val)) {
-      throw new Error(
-        `Illegal argument of option '${param}', Expected ${limits.join(' | ')}, but received '${val}'`
-      );
-    }
-    return val;
-  }
-}
-
-export const parseParamLabelPos = parseParamWithLimit(['left', 'center', 'right'])
-export const parseParamAlign = parseParamWithLimit(['left', 'center', 'right'])
 
 export default function paramsParser(): Options {
   const program = new Command();
@@ -212,7 +137,7 @@ export default function paramsParser(): Options {
       (gapLength) => parseParamFloat(gapLength, '--gap_length <number>'),
       0.2
     )
-    .option('--align <center | left | right>', 'Align', (align) => parseParamAlign(align, '--align <center | left | right>'))
+    .option('--align <center | left | right>', 'Align', (align) => parseParamAlign(align, '--align <center | left | right>'), 'center')
     .option(
       '-p --parameter <file>',
       'Specify the parameters for each row separately in a file',
