@@ -15,3 +15,9 @@ export type Alignment = {
   len1?: number;
   len2?: number;
 };
+
+export type AlignmentsByCtgs = {
+  [ctg1: string]: {
+    [ctgs: string]: Alignment[]
+  }
+}

@@ -1,4 +1,3 @@
-import fs from 'fs';
 import { Command } from 'commander';
 import chalk from 'chalk';
 import {
@@ -22,7 +21,7 @@ export default function paramsParser(): Options {
   program
     .version('0.0.0')
     .name('LINKVIEW2')
-    .argument('<input...>', 'input alignments file(s)');
+    .argument('<input...>', 'input alignments file(s).');
 
   program
     .option('\nNormal options:')
@@ -53,7 +52,7 @@ export default function paramsParser(): Options {
     )
     .option(
       '--scale <number>',
-      'Physical distance (bp) represented by one pixel(px)',
+      'Physical distance (bp) represented by one pixel(px).',
       (scale) => parseParamInt(scale, '--scale <number>'),
       0
     )
@@ -63,26 +62,26 @@ export default function paramsParser(): Options {
     .option('\nFilter options:')
     .option(
       '--min_alignment_length <number>',
-      'Minimum threshold for alignment length, default=0.',
+      'Minimum threshold for alignment length.',
       (minAlignmentLength) =>
         parseParamFloat(minAlignmentLength, '--min_alignment_length <number>'),
       0
     )
     .option(
       '--min_identity <number>',
-      'Minimum threshold for identity, default=70.',
+      'Minimum threshold for identity.',
       (minIdentity) => parseParamFloat(minIdentity, '--min_identity <number>'),
       70
     )
     .option(
       '--min_bit_score <number>',
-      'Minimum threshold for bit score (if bit score exists), default=1000.',
+      'Minimum threshold for bit score (if bit score exists).',
       (minBitScore) => parseParamFloat(minBitScore, '--min_bit_score <number>'),
       1000
     )
     .option(
       '--max_evalue <number>',
-      'Maximum threshold for evaluate (if evaluate exists), default=1e-5.',
+      'Maximum threshold for evaluate (if evaluate exists).',
       (maxEvalue) => parseParamFloat(maxEvalue, '--max_evalue <number>'),
       1e-5
     );
@@ -91,7 +90,7 @@ export default function paramsParser(): Options {
     .option('\nDrawing options:')
     .option(
       '--chro_thickness <number>',
-      'Thickness of chromosome(s), default=15',
+      'Thickness of chromosome(s).',
       (chroThickness) =>
         parseParamInt(chroThickness, '--chro_thickness <number>'),
       15
@@ -99,26 +98,26 @@ export default function paramsParser(): Options {
     .option('-n, --no_label', 'Do not show label(s)', false)
     .option(
       '--label_font_size <number>',
-      'Font size of the label, default=18',
+      'Font size of the label.',
       (labelFontSize) =>
         parseParamInt(labelFontSize, '--label_font_size <number>'),
       18
     )
     .option(
       '--label_angle <number>',
-      'Label rotation angle, default=30',
+      'Label rotation angle.',
       (labelAngle) => parseParamInt(labelAngle, '--label_angle <number>'),
       30
     )
     .option(
       '--label_pos <left | right>',
-      'Label position, left or right, default=right',
+      'Label position, left or right.',
       (labelPos) => parseParamLabelPos(labelPos, '--label_pos <left | right>'),
       'right'
     )
     .option(
       '--label_x_offset <number>',
-      'Label X offset, default=0',
+      'Label X offset.',
       (labelXOffset) =>
         parseParamInt(labelXOffset, '--label_x_offset <number>'),
       0
@@ -133,34 +132,39 @@ export default function paramsParser(): Options {
     .option('--chro_axis', 'Display the axis', false)
     .option(
       '--gap_length <number>',
-      ' Length of gap between two chromosomes, if > 1,It represents Physical length, if<1, It represents total_length_of_this_line * this. default=0.2',
+      ' Length of gap between two chromosomes, if > 1,It represents Physical length, if<1, It represents total_length_of_this_line * this.',
       (gapLength) => parseParamFloat(gapLength, '--gap_length <number>'),
       0.2
     )
     .option('--align <center | left | right>', 'Align', (align) => parseParamAlign(align, '--align <center | left | right>'), 'center')
     .option(
       '-p --parameter <file>',
-      'Specify the parameters for each row separately in a file',
+      'Specify the parameters for each row separately in a file.',
       (parameter) => parseParamSingleFile(parameter, '-p --parameter <file>')
     );
-
+  
+    program
+    .option('\nStyle options:')
+    .option('--bezier', 'Draw in Bezier style')
+    .option('--style <classic | simple>', 'Drawing style, we have two built-in styles: classic, simple.', 'classic')
+    
   program
     .option('\nSvg options:')
     .option(
       '--svg_height <number>',
-      'height of svg, default=800',
+      'height of svg.',
       (svgHeight) => parseParamInt(svgHeight, '--svg_height <number>'),
       800
     )
     .option(
       '--svg_width <number>',
-      'width of svg, default=1200',
+      'width of svg.',
       parseInt,
       1200
     )
     .option(
       '--svg_space <number>',
-      'The proportion of white space left and right, default=0.2',
+      'The proportion of white space left and right.',
       (svgWidth) => parseParamInt(svgWidth, '--svg_space <number>'),
       0.2
     );
@@ -184,7 +188,7 @@ export default function paramsParser(): Options {
 
   const options = program.opts();
   const use = function (this: Options, plugin: (...args: any) => void) {
-    plugin.apply(this);
+    return plugin.apply(this);
   };
   return Object.assign(options, {
     inputs: parseParamInput(program.args),

@@ -10,7 +10,7 @@ function calculateLineLen(
   drowOptionsItem: DrawOptionsItem
 ) {
   const len = layoutLine
-    .map(({ start, end }) => end - start + 1)
+    .map(({ start, end }) => Math.abs(end - start) + 1)
     .reduce((total, cur) => total + cur);
   const gapCount = layoutLine.length - 1;
   const gapLen =
@@ -41,10 +41,13 @@ function calculateScale(options: Options) {
 }
 
 function getSvgPosCreater(layoutItem: LayoutItem) {
-  return function (xPos: number, yPos: 'top' | 'bottom') {
+  return function (xPos: number, yPos: 'top' | 'bottom', isLargerPos: boolean = false) {
     const { start, end } = layoutItem;
+    if (start > end) isLargerPos = !isLargerPos;
     const { x, y, width, height } = layoutItem.svgProps!;
-    const xRelativePos = (xPos - start) / (end - start);
+    const xDeltaPos = Math.abs(xPos - start) + (isLargerPos ? 1 : 0);
+    const xDeltaTotal = (Math.abs(end - start) + 1);
+    const xRelativePos = xDeltaPos / xDeltaTotal;
     const svgXPos = x! + width! * xRelativePos;
     const svgYPos = yPos === 'top' ? y! : y! + height!;
     return [svgXPos, svgYPos] as [svgXPos: number, svgYPos: number];
@@ -132,7 +135,9 @@ export default function layoutSvg(this: Options) {
       svgProps.y = topCur; // 如果有 上刻度的话，需要改这里；
       svgProps.height = drawOptionsItem.chro_thickness;
       svgProps.x = leftCur;
-      svgProps.width = (end - start + 1) * scale;
+      const max = Math.max(start, end);
+      const min = Math.min(start, end);
+      svgProps.width = (max - min + 1) * scale;
       if (leftCur + svgProps.width > options.svg_width) {
         warn(`'${ctg}:${start}:${end}' is out of the scope of the picture！`);
       }
@@ -144,5 +149,6 @@ export default function layoutSvg(this: Options) {
   });
   if (!options.svg_template) options.svg_template = [];
   options.svg_template.push({ content: svgContents });
+  return options;
 }
 // https://wow.techbrood.com/fiddle/4786?vm=full

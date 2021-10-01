@@ -1,5 +1,6 @@
 import { Layout } from './layout';
 import { SvgTemplate } from './svgTemplate';
+import { Alignment, AlignmentsByCtgs } from '@linkview/linkview-align-parser';
 
 export type DrawOptionsItem = {
   chro_thickness: number;
@@ -43,8 +44,13 @@ export type Options = {
   layout: Layout;
   svg_template?: SvgTemplate;
   svg?: string;
-  use: (plugin: (...args: any) => void) => void;
+  use: <T>(plugin: (...args: any) => void) => Promise<T>;
   drawOptions?: DrawOptionsItem[];
   defualtDrawOptionsItem?: DrawOptionsItem;
   getDrawOptionsItem?: (index: number) => DrawOptionsItem;
+  alignments: Alignment[];
+  lenInfo: {[ctg: string]: number};
+  alignmentsByCtgs: AlignmentsByCtgs;
+  bezier?: boolean;
+  style: 'classic' | 'simple';
 };

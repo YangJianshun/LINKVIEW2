@@ -35,10 +35,11 @@ export default function paramsCreater(this: Options) {
   options.defualtDrawOptionsItem = defualtDrawOptionsItem;
   options.getDrawOptionsItem = (index: number) => index in drawOptions! ? drawOptions![index] : defualtDrawOptionsItem!;
   if (!parameter) return;
-  const content = fs.readFileSync(parameter).toString().trim();
+  const content = fs.readFileSync(parameter).toString();
   const lines = content.split('\n');
   for ( let index = 0, lineCount = lines.length; index < lineCount; index++) {
     const line = lines[index];
+    if (line.trim() === '') continue;
     const items = line.split(/\s+/);
     const drawOptionsItem: DrawOptionsItem = {...defualtDrawOptionsItem};
     for (let item of items) {
@@ -77,7 +78,7 @@ export default function paramsCreater(this: Options) {
     drawOptions.push(drawOptionsItem)
   }
   options.drawOptions = drawOptions;
-  // console.log(options.drawOptions);
+  return options;
 }
 
 export * from './utils';

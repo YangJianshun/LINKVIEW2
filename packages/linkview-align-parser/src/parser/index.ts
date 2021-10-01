@@ -1,14 +1,16 @@
 import eachLine from '../utils/eachLine';
-import { Alignment } from '../@types/alignment';
+import { Alignment, AlignmentsByCtgs } from '../@types/alignment';
 import { DEFAULT_COLOR_FLAG } from './constants';
 import { ParserOpt } from '../@types/parser';
 import { LineCharacteristic } from '../@types/characteristics';
 import { isNumber } from '../utils/number';
 import { average } from '../utils/array';
 import { checkLine } from '../checkType/checkTypeByHeadLines';
+import { errorPos } from '../utils/error';
+import { withErrorConsole } from '../utils/error';
 
 // 根据 parserOpt，生成一个解析函数，把每一行解析成固定的格式
-export const parserCreater = (parserOpt: ParserOpt) => (line: string) => {
+export const parserCreater = (parserOpt: ParserOpt, fileName: string) => withErrorConsole((line: string) => {
   line = line.trim();
   if (!parserOpt) return null;
   const { split, columns } = parserOpt;
@@ -45,8 +47,9 @@ export const parserCreater = (parserOpt: ParserOpt) => (line: string) => {
       ].includes(colum)
     ) {
       if (!isNumber(value)) {
+        const errorInfo = errorPos(line, items, index);
         throw new Error(
-          `${colum} should be a number, but get '${value}' in line: \n ${line} \n`
+          `${colum} should be a number, but get '${value}' in '${fileName}': \n${errorInfo} \n`
         );
       }
       alignment[
@@ -83,7 +86,7 @@ export const parserCreater = (parserOpt: ParserOpt) => (line: string) => {
   }
   // console.log(alignment);
   return alignment;
-};
+});
 
 // 常规过滤，比如注释行等
 // 根据 parserOpt.filters 生成一个过滤函数，用于 eachLine 过滤
@@ -107,6 +110,7 @@ const parseAlignFile = (
   filterAlign: ((alignment: Alignment) => boolean )| null = null
 ) => {
   const alignments: Alignment[] = [];
+  const alignmentsByCtgs: AlignmentsByCtgs = {};
   const lenInfo: {[ctg: string]: number} = {}
   return eachLine(
     fileName,
@@ -121,10 +125,19 @@ const parseAlignFile = (
         delete alignment.len1;
         delete alignment.len2;
       }
+      
+      // 存储 alignment，分别存到 alignmentsByCtgs 和 alignments 中
+      const { ctg1, ctg2 } = alignment;
+      if (!(ctg1 in alignmentsByCtgs)) alignmentsByCtgs[ctg1] = {};
+      if (!(ctg2 in alignmentsByCtgs[ctg1])) alignmentsByCtgs[ctg1][ctg2] = [];
+      if (!(ctg2 in alignmentsByCtgs)) alignmentsByCtgs[ctg2] = {};
+      if (!(ctg1 in alignmentsByCtgs[ctg2])) alignmentsByCtgs[ctg2][ctg1] = [];
 
       alignment && // 这个 alignment 不为 null
         (filterAlign ? !filterAlign(alignment) : true) && // 这个 alignment 不被过滤
-        alignments.push(alignment);
+        alignments.push(alignment) &&
+        alignmentsByCtgs[ctg1][ctg2].push(alignment) &&
+        alignmentsByCtgs[ctg2][ctg1].push(alignment);
 
       // 返回 true 就是一直读下去
       return true;
@@ -133,7 +146,7 @@ const parseAlignFile = (
   )
     .then(() => {
       // 读完了
-      return { alignments, lenInfo };
+      return { alignments, alignmentsByCtgs, lenInfo };
     })
 };
 

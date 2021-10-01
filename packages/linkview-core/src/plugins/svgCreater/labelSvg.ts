@@ -12,13 +12,22 @@ export default function labelSvg(this: Options) {
     layoutLine.forEach((layoutItem) => {
       let [x, y] =
         drawOptionsItem.label_pos === 'left'
-          ? layoutItem.getSvgPos!(1, 'bottom')
+          ? layoutItem.getSvgPos!(
+              layoutItem.start,
+              'bottom',
+              layoutItem.end < layoutItem.start
+            )
           : drawOptionsItem.label_pos === 'center'
           ? layoutItem.getSvgPos!(
               layoutItem.start + (layoutItem.end - layoutItem.start) / 2,
-              'bottom'
+              'bottom',
+              layoutItem.end < layoutItem.start
             )
-          : layoutItem.getSvgPos!(layoutItem.end, 'bottom');
+          : layoutItem.getSvgPos!(
+              layoutItem.end,
+              'bottom',
+              layoutItem.end > layoutItem.start
+            );
       y += drawOptionsItem.label_font_size;
       // offset
       x += drawOptionsItem.label_x_offset;
@@ -36,4 +45,5 @@ export default function labelSvg(this: Options) {
 
   if (!options.svg_template) options.svg_template = [];
   options.svg_template.push({ content: svgContents });
+  return options;
 }

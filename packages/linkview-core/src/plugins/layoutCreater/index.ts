@@ -29,4 +29,5 @@ export default function layoutCreater(this: Options) {
     }
   }
   options.layout = layout;
+  return options;
 }

@@ -4,17 +4,17 @@ import { FilterAlignOpt } from '../@types/filterAlign';
 import filterAlignCreater from '../filterAlign';
 
 const alignParser = async (fileName: string, filterAlignOpt?: FilterAlignOpt) => {
-  const { alignType, parserOpt } = await checkType(fileName);
-    const parser = parserCreater(parserOpt);
+    const { alignType, parserOpt } = await checkType(fileName);
+    const parser = parserCreater(parserOpt, fileName);
     const filter = filterCreater(parserOpt ? parserOpt.filters: null);
     const filterAlign = filterAlignOpt ? filterAlignCreater(filterAlignOpt) : null;
-    const { alignments, lenInfo } = await parseAlignFile(
+    const { alignments, alignmentsByCtgs, lenInfo } = await parseAlignFile(
       fileName,
       parser,
       filter,
       filterAlign
     );
-    return { alignType, alignments, lenInfo };
+    return { alignType, alignments, alignmentsByCtgs, lenInfo };
 }
 
 export default alignParser;
