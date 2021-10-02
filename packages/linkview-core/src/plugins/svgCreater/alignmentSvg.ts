@@ -6,7 +6,7 @@ import { SVG_ALIGN, SVG_ALIGN_BEZIER, styles } from './svgTemplates';
 export default function labelSvg(this: Options) {
   const options = this;
   const { layout, alignmentsByCtgs } = options;
-  let svgContents: string[] = [];
+  const svgContents: string[] = [];
   for (let index = 0, levelCount = layout.length; index < levelCount - 1; index++) {
     const layoutLineCur = layout[index];
     const layoutLineNext = layout[index + 1];
@@ -28,7 +28,6 @@ export default function labelSvg(this: Options) {
           const displayStart2 = layoutItemCur.ctg === alignment.ctg2 ? layoutItemCur.start : layoutItemNext.start;
           const displayEnd2 = layoutItemCur.ctg === alignment.ctg2 ? layoutItemCur.end : layoutItemNext.end;
           const calculatedAlignment = calculateSubAlign(alignment, displayStart1, displayEnd1, displayStart2, displayEnd2);
-
           if (!calculatedAlignment) return;
           let { start1, end1, start2, end2 } = calculatedAlignment;
           if (!(alignment.ctg1 === ctg1)) {
@@ -69,15 +68,10 @@ export default function labelSvg(this: Options) {
           const svgTemplate = options.bezier ? SVG_ALIGN_BEZIER : SVG_ALIGN;
           svgContents.push(renderItem(svgTemplate, alignProps));
           })
-        // console.log(ctg1, ctg2, alignments);
       })
     })
-
   }
   if (!options.svg_template) options.svg_template = [];
   options.svg_template.push({ content: svgContents });
-  if (options.style in styles) {
-    options.svg_template.push({content: styles[options.style]})
-  }
   return options;
 }

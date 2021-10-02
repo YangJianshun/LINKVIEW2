@@ -9,6 +9,8 @@ export type DrawOptionsItem = {
   label_angle: number;
   label_pos: 'center'| 'left' | 'right';
   chro_axis: boolean;
+  chro_axis_unit: number | 'auto';
+  chro_axis_pos: 'top' | 'bottom' | 'both';
   gap_length: number;
   align: 'center' | 'left' | 'right';
   label_x_offset: number;
@@ -39,6 +41,8 @@ export type Options = {
   gff?: string[];
   scale?: number;
   chro_axis?: boolean;
+  chro_axis_unit: number | 'auto';
+  chro_axis_pos: 'top' | 'bottom' | 'both';
   align: 'center' | 'left' | 'right';
   parameter?: string;
   layout: Layout;

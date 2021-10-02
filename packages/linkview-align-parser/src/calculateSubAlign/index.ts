@@ -14,7 +14,6 @@ export function calculateSubAlign(
   const displayEnd1Position = calculatePosition(start1, end1, displayEnd1);
   const displayStart2Position = calculatePosition(start2, end2, displayStart2);
   const displayEnd2Position = calculatePosition(start2, end2, displayEnd2);
-  console.log(displayStart1Position, displayEnd1Position, displayStart2Position, displayEnd2Position)
   const displayPosions = intersection(
     [displayStart1Position, displayEnd1Position],
     [displayStart2Position, displayEnd2Position]
@@ -87,28 +86,26 @@ function position2Site(start: number, end: number, position: number) {
 // const displayStart2 = 531;
 // const displayEnd2 = 551;
 
-const alignment: Alignment = {
-  start1: 101,
-  end1: 200,
-  start2: 300,
-  end2: 201,
-  alignLen: 100,
-  color: 'red',
-  opacity: 1,
-  ctg1: 'ctg1',
-  ctg2: 'ctg2',
-};
-const displayStart1 = 150;
-const displayEnd1 = 200;
-const displayStart2 = 231;
-const displayEnd2 = 300;
+// const alignment: Alignment = {
+//   start1: 101,
+//   end1: 200,
+//   start2: 300,
+//   end2: 201,
+//   alignLen: 100,
+//   color: 'red',
+//   opacity: 1,
+//   ctg1: 'ctg1',
+//   ctg2: 'ctg2',
+// };
+// const displayStart1 = 150;
+// const displayEnd1 = 200;
+// const displayStart2 = 231;
+// const displayEnd2 = 300;
 
-const alignDisplay = calculateSubAlign(
-  alignment,
-  displayStart1,
-  displayEnd1,
-  displayStart2,
-  displayEnd2
-);
-
-console.log(alignDisplay);
+// const alignDisplay = calculateSubAlign(
+//   alignment,
+//   displayStart1,
+//   displayEnd1,
+//   displayStart2,
+//   displayEnd2
+// );

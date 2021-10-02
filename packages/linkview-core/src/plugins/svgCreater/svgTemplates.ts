@@ -9,6 +9,10 @@ export const SVG_ALIGN =
   '<path d="M{x1},{y1} L{x2},{y2} L{x3},{y3} L{x4},{y4} Z" style="{selfStyle}" class="align"/>';
 export const SVG_ALIGN_BEZIER =
 '<path d="M{x1},{y1} C{bezierX1},{bezierY1} {bezierX2},{bezierY2} {x2},{y2} L{x3},{y3} C{bezierX3},{bezierY3} {bezierX4},{bezierY4} {x4},{y4} Z" style="{selfStyle}"; class="align"/>'
+export const SVG_AXIS_POINT =
+  '<path d="M {x} {y1} L {x} {y2} " stroke="black" fill="none"/>';
+export const SVG_AXIS_TEXT = 
+'<text x="{textX}" y="{textY}" fill="black" transform="rotate({textAngle},{textX} {textY})" font-size="9">{text}</text>'
 
 export const styles = {
   classic: `<defs><style>

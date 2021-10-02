@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { Options, DrawOptionsItem } from '../../@types/options';
 import { errorPos, warn } from '../../utils/error';
-import { parseParamFloat, parseParamLabelPos, parseParamAlign } from './utils';
+import { parseParamFloat, parseParamLabelPos, parseParamAlign, parseParamAxisUnit } from './utils';
 
 const typoOfDrawOptions = {
   chro_thickness: 'number',
@@ -12,6 +12,8 @@ const typoOfDrawOptions = {
   label_x_offset: 'number',
   label_y_offset: 'number',
   chro_axis: 'boolean',
+  chro_axis_unit: 'string',
+  chro_axis_pos: 'string',
   gap_length: 'number',
   align: 'string',
 }
@@ -29,6 +31,8 @@ export default function paramsCreater(this: Options) {
     label_x_offset: options.label_x_offset,
     label_y_offset: options.label_y_offset,
     chro_axis: options.chro_axis as boolean,
+    chro_axis_pos: options.chro_axis_pos,
+    chro_axis_unit: options.chro_axis_unit,
     gap_length: options.gap_length,
     align: options.align,
   }
@@ -63,9 +67,11 @@ export default function paramsCreater(this: Options) {
         convertValue = parseParamFloat(value, drawOption);
       } else if (typeOfDrawOption === 'string') {
         if (drawOption === 'label_pos') {
-          convertValue = parseParamLabelPos(value, 'drawOption');
+          convertValue = parseParamLabelPos(value, drawOption);
         } else if (drawOption === 'align') {
           convertValue = parseParamAlign(value, drawOption);
+        } else if (drawOption === 'chro_axis_unit') {
+          convertValue = parseParamAxisUnit(value, drawOption);
         }
       }
       } catch(error) {

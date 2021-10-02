@@ -11,6 +11,7 @@ import {
   parseParamInput,
   parseParamStyle,
   parseParamAxisPos,
+  parseParamAxisUnit,
 } from '@linkview/linkview-core';
 
 export default function paramsParser(): Options {
@@ -130,14 +131,19 @@ export default function paramsParser(): Options {
         parseParamInt(labelYOffset, '--label_y_offset <number>'),
       0
     )
-    .option('--chro_axis', 'Display the axis', false)
+    .option('--chro_axis', 'Display the axis.', false)
     .option(
-      '--chro_axis_pos <top | bottom>',
-      'Position the axis',
+      '--chro_axis_unit <string>',
+      'Unit size of the axis.',
+      (axisUnit) => parseParamAxisUnit(axisUnit, '--chro_axis_unit <string>'),
+      'auto'
+    )
+    .option(
+      '--chro_axis_pos <top | bottom | both>',
+      'Position of the axis',
       (axisPos) =>
-        parseParamAxisPos(axisPos, '--chro_axis'),
-
-      'top'
+        parseParamAxisPos(axisPos, '--chro_axis_pos <top | bottom | both>'),
+      'bottom'
     )
     .option(
       '--gap_length <number>',
@@ -199,7 +205,6 @@ export default function paramsParser(): Options {
   );
 
   program.parse(process.argv);
-
   const options = program.opts();
   const use = function (this: Options, plugin: (...args: any) => void) {
     return plugin.apply(this);

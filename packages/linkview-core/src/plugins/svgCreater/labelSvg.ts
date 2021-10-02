@@ -5,7 +5,7 @@ import { SVG_LABEL } from './svgTemplates';
 export default function labelSvg(this: Options) {
   const options = this;
   const { layout } = options;
-  let svgContents: string[] = [];
+  const svgContents: string[] = [];
   layout.forEach((layoutLine, index) => {
     const drawOptionsItem = options.getDrawOptionsItem!(index);
     if (drawOptionsItem.no_label) return;

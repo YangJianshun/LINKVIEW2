@@ -82,8 +82,39 @@ export function parseParamWithLimit(limits: string[]) {
   }
 }
 
+export function parseBases(val: string) {
+  const suffixMap = {
+    'm': 1000000,
+    'mb': 1000000,
+    'mbp': 1000000,
+    'k': 1000,
+    'kb': 1000,
+    'kbp': 1000,
+    'bp': 1,
+  }
+  val = val.trim().toLowerCase();
+  let result = Number(val);
+  for (let suffix in suffixMap) {
+    if (val.endsWith(suffix)) {
+      val = val.replace(suffix, '');
+      result = Number(val) * suffixMap[suffix as keyof typeof suffixMap];
+      break;
+    }
+  }
+  return result;
+}
+
+export function parseParamAxisUnit(val: string, param: string): number | 'auto' {
+  val = val.trim().toLowerCase();
+  const result = val === 'auto' ? val : parseBases(val);
+  if (result !== 'auto' && isNaN(result))
+    throw new Error(
+      `Illegal argument of option '${param}', '${val}' cannot be resolved to number of bases!`
+    );
+  return result;
+}
+
 export const parseParamLabelPos = parseParamWithLimit(['left', 'center', 'right'])
 export const parseParamAlign = parseParamWithLimit(['left', 'center', 'right'])
 export const parseParamStyle = parseParamWithLimit(['classic', 'simple'])
 export const parseParamAxisPos = parseParamWithLimit(['top', 'bottom'])
-

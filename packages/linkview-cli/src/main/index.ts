@@ -7,7 +7,7 @@ export default async function main() {
   const options = paramsParser();
 
   options.use(function (this: typeof options) {
-    console.log(this)
+    console.log(this);
   })
 
   // 根据 parameter 文件，确定每行的作图参数

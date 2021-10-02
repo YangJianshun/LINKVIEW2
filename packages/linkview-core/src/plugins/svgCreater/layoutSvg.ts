@@ -64,7 +64,6 @@ export default function layoutSvg(this: Options) {
     );
   }
   let spaceVerticalTotal = options.svg_height;
-  // 计算每层之间的间隔高度，为了预留后续每层都可以添加刻度，如果有刻度的话，空白高度相应减少
   // 同时过滤掉 start 或 end 为 0 的
   // 为什么要在 layoutSvg 这个 plugin 中删掉 start、 end 为 0 的 ctg？ 因为，前面要根据 alignment 推断，start 和 end
   for (let index = 0; index < layout.length; index++) {
@@ -80,7 +79,8 @@ export default function layoutSvg(this: Options) {
       (layoutItem) => !(layoutItem.start === 0 || layoutItem.end === 0)
     );
     const layoutLine = layout[index];
-    let svgHeight = 0; // 每一层的最大高度（如果某个 ctg 有 刻度的话，有刻度的会成为最大高度）
+    let svgHeight = 0; // 每一层的最大高度（如果某个 ctg 有 刻度的话，有刻度的会成为最大高度） 
+    // 注意： 后面发现刻度出现在 alignments 块里面，也挺好看的，不会因为刻度影响高度了。
     if (layoutLine.length > 0) {
       layoutLine.forEach((layoutItem) => {
         layoutItem.svgHeight = drawOptionsItem.chro_thickness; // 后续有刻度，需要在这里加上 刻度 的高度；
@@ -102,7 +102,7 @@ export default function layoutSvg(this: Options) {
   options.scale = scale;
   // 初始化 临时变量 topCur 和 svgContents
   let topCur = 0;
-  let svgContents: string[] = [];
+  const svgContents: string[] = [];
   // 开始遍历 layout
   layout.forEach((layoutLine, index) => {
     const svgHeight = Math.max(
