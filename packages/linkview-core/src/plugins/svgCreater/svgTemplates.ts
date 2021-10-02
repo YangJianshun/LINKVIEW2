@@ -13,6 +13,8 @@ export const SVG_AXIS_POINT =
   '<path d="M {x} {y1} L {x} {y2} " stroke="black" fill="none"/>';
 export const SVG_AXIS_TEXT = 
 '<text x="{textX}" y="{textY}" fill="black" transform="rotate({textAngle},{textX} {textY})" font-size="9">{text}</text>'
+export const SVG_HIGHLIGHT =
+  '<rect x="{x}" y="{y}" width="{width}" height="{height}" fill="{color}" />';
 
 export const styles = {
   classic: `<defs><style>

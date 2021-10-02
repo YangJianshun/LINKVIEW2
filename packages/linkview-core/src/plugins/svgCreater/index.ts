@@ -6,6 +6,7 @@ import styleSvg from './styleSvg';
 import labelSvg from './labelSvg';
 import alignmentSvg from './alignmentSvg';
 import axisSvg from './axisSvg';
+import highlightSvg from './highlightSvg';
 
 export default function svgCreater(this: Options) {
   const options = this;
@@ -13,6 +14,7 @@ export default function svgCreater(this: Options) {
   options.use(layoutSvg);
   options.use(labelSvg);
   options.use(alignmentSvg);
+  options.use(highlightSvg);
   options.use(axisSvg);
 
   options.svg_template?.unshift(SVG_START);

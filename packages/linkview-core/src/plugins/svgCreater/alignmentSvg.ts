@@ -1,9 +1,9 @@
-import { Alignment, calculateSubAlign, DEFAULT_COLOR_FLAG, DEFAULT_OPACITY_FLAG } from '@linkview/linkview-align-parser';
+import { calculateSubAlign, DEFAULT_COLOR_FLAG, DEFAULT_OPACITY_FLAG } from '@linkview/linkview-align-parser';
 import { Options } from '../../@types/options';
 import { renderItem } from './render';
 import { SVG_ALIGN, SVG_ALIGN_BEZIER, styles } from './svgTemplates';
 
-export default function labelSvg(this: Options) {
+export default function alignmentSvg(this: Options) {
   const options = this;
   const { layout, alignmentsByCtgs } = options;
   const svgContents: string[] = [];

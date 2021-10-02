@@ -1,5 +1,5 @@
 import { Alignment } from '../@types/alignment';
-import { intersection } from '../utils/internal';
+import { intersection } from '../utils/interval';
 
 // 根据 真实 alignment 计算出，在给定展示区间的 alignment
 export function calculateSubAlign(

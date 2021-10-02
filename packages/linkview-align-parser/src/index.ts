@@ -4,6 +4,7 @@ import alignParser from './main';
 export * from './@types';
 export * from './calculateSubAlign';
 export * from './parser';
+export * from './utils';
 export default alignParser;
 // export default alignParser;
 
