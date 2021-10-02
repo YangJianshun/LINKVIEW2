@@ -9,8 +9,9 @@ import {
   parseParamLabelPos,
   parseParamAlign,
   parseParamInput,
+  parseParamStyle,
+  parseParamAxisPos,
 } from '@linkview/linkview-core';
-
 
 export default function paramsParser(): Options {
   const program = new Command();
@@ -131,23 +132,41 @@ export default function paramsParser(): Options {
     )
     .option('--chro_axis', 'Display the axis', false)
     .option(
+      '--chro_axis_pos <top | bottom>',
+      'Position the axis',
+      (axisPos) =>
+        parseParamAxisPos(axisPos, '--chro_axis'),
+
+      'top'
+    )
+    .option(
       '--gap_length <number>',
       ' Length of gap between two chromosomes, if > 1,It represents Physical length, if<1, It represents total_length_of_this_line * this.',
       (gapLength) => parseParamFloat(gapLength, '--gap_length <number>'),
       0.2
     )
-    .option('--align <center | left | right>', 'Align', (align) => parseParamAlign(align, '--align <center | left | right>'), 'center')
+    .option(
+      '--align <center | left | right>',
+      'Align',
+      (align) => parseParamAlign(align, '--align <center | left | right>'),
+      'center'
+    )
     .option(
       '-p --parameter <file>',
       'Specify the parameters for each row separately in a file.',
       (parameter) => parseParamSingleFile(parameter, '-p --parameter <file>')
     );
-  
-    program
+
+  program
     .option('\nStyle options:')
     .option('--bezier', 'Draw in Bezier style')
-    .option('--style <classic | simple>', 'Drawing style, we have two built-in styles: classic, simple.', 'classic')
-    
+    .option(
+      '--style <classic | simple>',
+      'Drawing style, we have two built-in styles: classic, simple.',
+      (style) => parseParamStyle(style, '--style <classic | simple>'),
+      'classic'
+    );
+
   program
     .option('\nSvg options:')
     .option(
@@ -156,12 +175,7 @@ export default function paramsParser(): Options {
       (svgHeight) => parseParamInt(svgHeight, '--svg_height <number>'),
       800
     )
-    .option(
-      '--svg_width <number>',
-      'width of svg.',
-      parseInt,
-      1200
-    )
+    .option('--svg_width <number>', 'width of svg.', parseInt, 1200)
     .option(
       '--svg_space <number>',
       'The proportion of white space left and right.',

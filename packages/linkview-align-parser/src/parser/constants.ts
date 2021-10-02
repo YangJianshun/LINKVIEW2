@@ -1,1 +1,2 @@
 export const DEFAULT_COLOR_FLAG = 'DEFAULT_COLOR';
+export const DEFAULT_OPACITY_FLAG = -1;

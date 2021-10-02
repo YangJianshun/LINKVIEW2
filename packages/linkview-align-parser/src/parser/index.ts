@@ -1,6 +1,6 @@
 import eachLine from '../utils/eachLine';
 import { Alignment, AlignmentsByCtgs } from '../@types/alignment';
-import { DEFAULT_COLOR_FLAG } from './constants';
+import { DEFAULT_COLOR_FLAG, DEFAULT_OPACITY_FLAG } from './constants';
 import { ParserOpt } from '../@types/parser';
 import { LineCharacteristic } from '../@types/characteristics';
 import { isNumber } from '../utils/number';
@@ -24,7 +24,7 @@ export const parserCreater = (parserOpt: ParserOpt, fileName: string) => withErr
     end2: 0,
     alignLen: 0,
     color: DEFAULT_COLOR_FLAG,
-    opacity: 1,
+    opacity: DEFAULT_OPACITY_FLAG,
   };
   const alignLens: number[] = []; // 用于计算 alignLen 平均值， 如果一行有多个 alignLen
   let shouldReverse: boolean = false; // 是否需要交换 start1 和 end1 的值，minimap strand 为 -，需要交换
@@ -151,6 +151,7 @@ const parseAlignFile = (
 };
 
 export default parseAlignFile;
+export * from './constants';
 
 // ===== test =====
 // const parserOpt = {

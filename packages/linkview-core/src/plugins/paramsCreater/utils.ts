@@ -84,3 +84,6 @@ export function parseParamWithLimit(limits: string[]) {
 
 export const parseParamLabelPos = parseParamWithLimit(['left', 'center', 'right'])
 export const parseParamAlign = parseParamWithLimit(['left', 'center', 'right'])
+export const parseParamStyle = parseParamWithLimit(['classic', 'simple'])
+export const parseParamAxisPos = parseParamWithLimit(['top', 'bottom'])
+

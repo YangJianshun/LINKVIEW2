@@ -1,7 +1,7 @@
-import { Alignment, calculateSubAlign } from '@linkview/linkview-align-parser';
+import { Alignment, calculateSubAlign, DEFAULT_COLOR_FLAG, DEFAULT_OPACITY_FLAG } from '@linkview/linkview-align-parser';
 import { Options } from '../../@types/options';
 import { renderItem } from './render';
-import { SVG_ALIGN } from './svgTemplates';
+import { SVG_ALIGN, SVG_ALIGN_BEZIER, styles } from './svgTemplates';
 
 export default function labelSvg(this: Options) {
   const options = this;
@@ -39,8 +39,9 @@ export default function labelSvg(this: Options) {
           const [x2, y2] = layoutItemNext.getSvgPos!(start2, 'top', start2 === Math.max(start2, end2));
           const [x3, y3] = layoutItemNext.getSvgPos!(end2, 'top', end2 === Math.max(start2, end2));
           const [x4, y4] = layoutItemCur.getSvgPos!(end1, 'bottom', end1 === Math.max(start1, end1));
-          console.log('[x2, y2]', [x2, y2])
-          console.log('[x3, y3]', [x3, y3])
+          const selfFill = alignment.color === DEFAULT_COLOR_FLAG ? '' : `fill: ${alignment.color};`;
+          const selfOpacity = alignment.opacity === DEFAULT_OPACITY_FLAG ? '' : `opacity: ${alignment.opacity};`;
+          const selfStyle = `${selfFill} ${selfOpacity}`;
           const alignProps = {
             x1,
             y1,
@@ -50,10 +51,23 @@ export default function labelSvg(this: Options) {
             y3,
             x4,
             y4,
-            fill: 'green',
-            opacity: 0.5,
+            selfStyle,
           }
-          svgContents.push(renderItem(SVG_ALIGN, alignProps));
+          if (options.bezier) {
+            const multipliers = x1 > x2 ? [1, 2, 2, 1] : [2, 1, 1, 2];
+            Object.assign(alignProps, {
+              bezierX1: x1,
+              bezierY1: Math.min(y1, y2) + Math.abs(y1 - y2) / 3 * multipliers[0],
+              bezierX2: x2,
+              bezierY2: Math.min(y1, y2) + Math.abs(y1 - y2) / 3 * multipliers[1],
+              bezierX3: x3,
+              bezierY3: Math.min(y3, y4) + Math.abs(y3 - y4) / 3 * multipliers[2],
+              bezierX4: x4,
+              bezierY4: Math.min(y3, y4) + Math.abs(y3 - y4) / 3 * multipliers[3],
+            });
+          }
+          const svgTemplate = options.bezier ? SVG_ALIGN_BEZIER : SVG_ALIGN;
+          svgContents.push(renderItem(svgTemplate, alignProps));
           })
         // console.log(ctg1, ctg2, alignments);
       })
@@ -62,5 +76,8 @@ export default function labelSvg(this: Options) {
   }
   if (!options.svg_template) options.svg_template = [];
   options.svg_template.push({ content: svgContents });
+  if (options.style in styles) {
+    options.svg_template.push({content: styles[options.style]})
+  }
   return options;
 }
