@@ -20,5 +20,4 @@ export default function svgCreater(this: Options) {
   options.svg_template?.unshift(SVG_START);
   options.svg_template?.push(SVG_END);
   options.svg = render(options.svg_template!, options);
-  console.log(options.svg);
 }
