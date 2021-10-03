@@ -15,6 +15,9 @@ export default function layoutCreater(this: Options) {
       const items = line.split(/\s+/);
       layout.push([])
       for (let item of items) {
+        const leftDash = item.startsWith('-');
+        const rightDash = item.endsWith('-');
+        item = item.replace(/^-*/, '').replace(/-*$/, '');
         const [ctg, startStr, endStr] = item.split(':');
         const noIntervalInfo =  startStr === undefined && endStr === undefined
         const start = noIntervalInfo ? 0 : Number(startStr);
@@ -24,7 +27,7 @@ export default function layoutCreater(this: Options) {
           const errorPosInfo = errorPos(line, errStr, item);
           throw new Error(`format error at karyotype file '${karyotype}' line ${index + 1}\n${errorPosInfo}\n'${errStr}' is not a number!`);
         }
-        layout[index].push({ctg, start, end})
+        layout[index].push({ctg, start, end, leftDash, rightDash})
       }
     }
   }

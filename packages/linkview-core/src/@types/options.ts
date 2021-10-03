@@ -41,6 +41,7 @@ export type Options = {
   hl_min1px?: boolean;
   gff?: string[];
   scale?: number;
+  show_scale: boolean;
   chro_axis?: boolean;
   chro_axis_unit: number | 'auto';
   chro_axis_pos: 'top' | 'bottom' | 'both';

@@ -2,8 +2,10 @@ import { DrawOptionsItem, Options } from '../../@types/options';
 import { warn } from '../../utils/error';
 import { SvgProps } from '../../@types/svgTemplate';
 import { Layout, LayoutLine, LayoutItem } from '../../@types/layout';
-import { SVG_CTG } from './svgTemplates';
+import { SVG_CTG, SVG_CTG_DASH } from './svgTemplates';
 import { renderItem } from './render';
+
+const DASH_LEN = 12;
 
 function calculateLineLen(
   layoutLine: LayoutLine,
@@ -131,20 +133,39 @@ export default function layoutSvg(this: Options) {
     }
     layoutLine.forEach((layoutItem) => {
       const { ctg, start, end, svgHeight: svgHeightItem } = layoutItem;
-      const svgProps: SvgProps = {};
-      svgProps.y = topCur; // 如果有 上刻度的话，需要改这里；
-      svgProps.height = drawOptionsItem.chro_thickness;
-      svgProps.x = leftCur;
       const max = Math.max(start, end);
       const min = Math.min(start, end);
-      svgProps.width = (max - min + 1) * scale;
-      if (leftCur + svgProps.width > options.svg_width) {
+      const svgProps: SvgProps = {
+        y: topCur,
+        height: drawOptionsItem.chro_thickness,
+        x: leftCur,
+        width: (max - min + 1) * scale,
+      };
+      // svgProps.y = topCur;
+      // svgProps.height = drawOptionsItem.chro_thickness;
+      // svgProps.x = leftCur;
+      // svgProps.width = (max - min + 1) * scale;
+      if (leftCur + svgProps.width! > options.svg_width) {
         warn(`'${ctg}:${start}:${end}' is out of the scope of the picture！`);
       }
-      leftCur += svgProps.width + gapLen * scale;
+      if (layoutItem.leftDash) {
+        svgContents.push(renderItem(SVG_CTG_DASH, {
+          y: topCur + drawOptionsItem.chro_thickness / 2,
+          x1: leftCur - DASH_LEN,
+          x2: leftCur,
+        }));
+      }
+      if (layoutItem.rightDash) {
+        svgContents.push(renderItem(SVG_CTG_DASH, {
+          y: topCur + drawOptionsItem.chro_thickness / 2,
+          x1: svgProps.width! + leftCur,
+          x2: svgProps.width! + leftCur + DASH_LEN,
+        }));
+      }
+      svgContents.push(renderItem(SVG_CTG, svgProps));
+      leftCur += svgProps.width! + gapLen * scale;
       layoutItem.svgProps = svgProps;
       layoutItem.getSvgPos = getSvgPosCreater(layoutItem);
-      svgContents.push(renderItem(SVG_CTG, svgProps));
     });
   });
   if (!options.svg_template) options.svg_template = [];

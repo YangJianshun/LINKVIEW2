@@ -13,6 +13,8 @@ export type LayoutItem = {
   svgHeight?: number;
   svgProps?: SvgProps;
   getSvgPos?: (xPos: number, yPos: 'top' | 'bottom', isLargerPos?: boolean) => [svgXPos: number, svgYPos: number];
+  leftDash: boolean;
+  rightDash: boolean;
 };
 
 export type LayoutLine = LayoutItem[];

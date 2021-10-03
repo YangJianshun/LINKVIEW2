@@ -40,7 +40,7 @@ export default function alignmentSvg(this: Options) {
           const [x4, y4] = layoutItemCur.getSvgPos!(end1, 'bottom', end1 === Math.max(start1, end1));
           const selfFill = alignment.color === DEFAULT_COLOR_FLAG ? '' : `fill: ${alignment.color};`;
           const selfOpacity = alignment.opacity === DEFAULT_OPACITY_FLAG ? '' : `opacity: ${alignment.opacity};`;
-          const selfStyle = `${selfFill} ${selfOpacity}`;
+          const selfStyle = selfFill || selfOpacity ? `style="${selfFill} ${selfOpacity}"` : '';
           const alignProps = {
             x1,
             y1,
