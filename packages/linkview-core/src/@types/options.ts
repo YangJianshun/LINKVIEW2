@@ -16,6 +16,7 @@ export type DrawOptionsItem = {
   label_x_offset: number;
   label_y_offset: number;
 };
+export type IntervalInfoByAlignments = {[ctg: string]: {start: number, end: number}};
 
 export type Options = {
   inputs: string[];
@@ -57,4 +58,5 @@ export type Options = {
   alignmentsByCtgs: AlignmentsByCtgs;
   bezier?: boolean;
   style: 'classic' | 'simple';
-};
+  intervalInfoByAlignments: IntervalInfoByAlignments;
+}
