@@ -17,6 +17,6 @@ export default async function main(options: Options) {
   // 如果没有 指定 karyotype 则根据 alignment 情况，推断出一个 layout
   options.use(autoLayoutCreater);
   // 生成 svg
-  options.use(svgCreater);
+  await options.use(svgCreater);
   return options.svg;
 }

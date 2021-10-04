@@ -2,7 +2,7 @@ import { DrawOptionsItem, Options } from '../../@types/options';
 import { warn } from '../../utils/error';
 import { SvgProps } from '../../@types/svgTemplate';
 import { Layout, LayoutLine, LayoutItem } from '../../@types/layout';
-import { SVG_CTG, SVG_CTG_DASH } from './svgTemplates';
+import { SVG_CTG, SVG_CTG_DASH, SVG_CLIPPATH_START, SVG_CLIPPATH_END } from './svgTemplates';
 import { renderItem } from './render';
 
 const DASH_LEN = 12;
@@ -47,7 +47,8 @@ function getSvgPosCreater(layoutItem: LayoutItem) {
     const { start, end } = layoutItem;
     if (start > end) isLargerPos = !isLargerPos;
     const { x, y, width, height } = layoutItem.svgProps!;
-    const xDeltaPos = Math.abs(xPos - start) + (isLargerPos ? 1 : 0);
+    let xDeltaPos = Math.abs(xPos - start) + (isLargerPos ? 1 : 0);
+    if ((start > end && xPos > start) || (start < end && xPos < start)) xDeltaPos = -xDeltaPos;
     const xDeltaTotal = (Math.abs(end - start) + 1);
     const xRelativePos = xDeltaPos / xDeltaTotal;
     const svgXPos = x! + width! * xRelativePos;
@@ -105,6 +106,7 @@ export default function layoutSvg(this: Options) {
   // 初始化 临时变量 topCur 和 svgContents
   let topCur = 0;
   const svgContents: string[] = [];
+  const svgClipPathContents: string[] = [SVG_CLIPPATH_START];
   // 开始遍历 layout
   layout.forEach((layoutLine, index) => {
     const svgHeight = Math.max(
@@ -162,12 +164,17 @@ export default function layoutSvg(this: Options) {
           x2: svgProps.width! + leftCur + DASH_LEN,
         }));
       }
-      svgContents.push(renderItem(SVG_CTG, svgProps));
+      const svgContent = renderItem(SVG_CTG, svgProps);
+      svgContents.push(svgContent);
+      svgClipPathContents.push(svgContent);
       leftCur += svgProps.width! + gapLen * scale;
       layoutItem.svgProps = svgProps;
       layoutItem.getSvgPos = getSvgPosCreater(layoutItem);
     });
   });
+
+  svgClipPathContents.push(SVG_CLIPPATH_END);
+  svgContents.push(...svgClipPathContents);
   if (!options.svg_template) options.svg_template = [];
   options.svg_template.push({ content: svgContents });
   return options;

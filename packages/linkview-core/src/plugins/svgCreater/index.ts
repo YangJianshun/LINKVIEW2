@@ -8,8 +8,9 @@ import alignmentSvg from './alignmentSvg';
 import axisSvg from './axisSvg';
 import highlightSvg from './highlightSvg';
 import scaleSvg from './scaleSvg';
+import geneSvg from './geneSvg';
 
-export default function svgCreater(this: Options) {
+export default async function svgCreater(this: Options) {
   const options = this;
 
   options.use(styleSvg);
@@ -17,6 +18,7 @@ export default function svgCreater(this: Options) {
   options.use(labelSvg);
   options.use(alignmentSvg);
   options.use(highlightSvg);
+  await options.use(geneSvg);
   options.use(axisSvg);
   options.use(scaleSvg);
 
