@@ -1,7 +1,7 @@
 {
   "name": "@linkview/linkview-core",
-  "version": "1.0.0-alpha.0",
-  "description": "> TODO: description",
+  "version": "1.0.0",
+  "description": "LINKVIEW 核心过程",
   "author": "YangJianshun <397441459@qq.com>",
   "homepage": "https://github.com/YangJianshun/LINKVIEW2#readme",
   "license": "ISC",
