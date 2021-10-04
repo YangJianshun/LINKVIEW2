@@ -13,9 +13,6 @@
   "files": [
     "lib"
   ],
-  "publishConfig": {
-    "registry": "https://npm.shopee.io/"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YangJianshun/LINKVIEW2.git"
@@ -35,5 +32,6 @@
   },
   "devDependencies": {
     "jest": "^27.2.4"
-  }
+  },
+  "gitHead": "e3a439c79dfa2acdfb57a8b45f5745382b8fd0c8"
 }
