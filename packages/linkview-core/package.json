@@ -1,6 +1,6 @@
 {
   "name": "@linkview/linkview-core",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.0",
   "description": "> TODO: description",
   "author": "YangJianshun <397441459@qq.com>",
   "homepage": "https://github.com/YangJianshun/LINKVIEW2#readme",
@@ -30,7 +30,7 @@
     "url": "https://github.com/YangJianshun/LINKVIEW2/issues"
   },
   "dependencies": {
-    "@linkview/linkview-align-parser": "^0.0.0",
+    "@linkview/linkview-align-parser": "^1.0.0-alpha.0",
     "chalk": "^4.1.2"
   },
   "devDependencies": {
