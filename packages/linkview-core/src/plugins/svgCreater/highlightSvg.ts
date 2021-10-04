@@ -66,14 +66,14 @@ export default function highlightSvg(this: Options) {
         [hlStart, hlEnd] = intersection([max, min], [hlStart, hlEnd]);
         if (hlStart > hlEnd) [hlStart, hlEnd] = [hlEnd, hlStart];
         if (hlStart && hlEnd) {
-          // console.log(ctg, hlStart, hlEnd);
           const [xStart, ystart] = layoutItem.getSvgPos!(hlStart, 'top', false);
           const [xEnd] = layoutItem.getSvgPos!(hlEnd, 'top', true);
-          // console.log('xStart, xEnd', xStart, xEnd)
+          let width = Math.abs(xEnd - xStart);
+          if (width < 1 && options.hl_min1px) width = 1;
           const highlightProps = {
             x: Math.min(xStart, xEnd),
             y: ystart,
-            width: Math.abs(xEnd - xStart),
+            width,
             height: layoutItem.svgProps?.height,
             color
           }

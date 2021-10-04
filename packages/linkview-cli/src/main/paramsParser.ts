@@ -43,11 +43,6 @@ export default function paramsParser(): Options {
       'Forces each highlight to be at least one pixel wide.'
     )
     .option(
-      '--chro_len <file(s)>',
-      'Length file, specify the length of each chromosome.  Separate multiple files with commas.',
-      (fileNames) => parseParamMultipleFile(fileNames, '--chro_len <file(s)>')
-    )
-    .option(
       '-g --gff <file(s)>',
       'One or multiple gff files, separated by commas.',
       (fileNames) => parseParamMultipleFile(fileNames, '-g --gff <file(s)>')
@@ -194,7 +189,7 @@ export default function paramsParser(): Options {
     'afterAll',
     chalk.blue(`\n================================================`)
   );
-  program.addHelpText('afterAll', chalk.blue(`\n\temail: 397441559@qq.com`));
+  // program.addHelpText('afterAll', chalk.blue(`\n\temail: 397441559@qq.com`));
   program.addHelpText(
     'afterAll',
     chalk.blue(`\nCopyright © 2020 JasonYang. All rights reserved.`)
