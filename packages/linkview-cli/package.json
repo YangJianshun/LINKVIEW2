@@ -33,7 +33,6 @@
     "url": "https://github.com/YangJianshun/LINKVIEW2/issues"
   },
   "dependencies": {
-    "@linkview/linkview-align-parser": "^1.0.0",
     "@linkview/linkview-core": "^1.0.0",
     "chalk": "^4.1.2",
     "commander": "^8.2.0"

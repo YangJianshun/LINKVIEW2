@@ -1,6 +1,6 @@
 {
   "name": "@linkview/linkview-align-parser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "解析和过滤不同格式的DNA序列比对结果 (alignments)",
   "author": "YangJianshun <shunlintianxia@sina.com>",
   "homepage": "https://github.com/YangJianshun/LINKVIEW2#readme",
@@ -31,11 +31,11 @@
   },
   "devDependencies": {
     "@types/line-reader": "^0.0.34",
-    "jest": "^27.1.0",
-    "line-reader": "^0.4.0"
+    "jest": "^27.1.0"
   },
   "dependencies": {
-    "chalk": "^4.1.2"
+    "chalk": "^4.1.2",
+    "line-reader": "^0.4.0"
   },
   "gitHead": "e3a439c79dfa2acdfb57a8b45f5745382b8fd0c8"
 }
