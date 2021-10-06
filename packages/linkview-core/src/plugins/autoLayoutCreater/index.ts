@@ -7,7 +7,7 @@ const MAX_NUMBER_OF_CTGS = 5;
 
 export default function autoLayoutCreater(this: Options) {
   const options = this;
-  let { karyotype, layout, alignmentsByCtgs } = options;
+  let { karyotype, karyotypeContent, layout, alignmentsByCtgs } = options;
   const intervalInfoByAlignments: IntervalInfoByAlignments = {};
   const setIntervalInfo = (ctg: string, start: number, end: number) => {
     const min = Math.min(start, end);
@@ -21,7 +21,7 @@ export default function autoLayoutCreater(this: Options) {
       };
     }
   };
-  if (layout.length === 0 && !karyotype) {
+  if (layout.length === 0 && !karyotype && !karyotypeContent) {
     const ctgs = Object.keys(alignmentsByCtgs);
     for (let ctg of ctgs) {
       for (let ctgAnother in alignmentsByCtgs[ctg]) {
@@ -58,29 +58,5 @@ export default function autoLayoutCreater(this: Options) {
     }
 
   }
-  // if (karyotype) {
-  //   const karyotypeContent = fs.readFileSync(karyotype).toString().trim();
-  //   const lines = karyotypeContent.split('\n');
-  //   for (let index = 0, lineCount = lines.length; index < lineCount; index++) {
-  //     const line = lines[index].trim();
-  //     const items = line.split(/\s+/);
-  //     layout.push([])
-  //     for (let item of items) {
-  //       const leftDash = item.startsWith('-');
-  //       const rightDash = item.endsWith('-');
-  //       item = item.replace(/^-*/, '').replace(/-*$/, '');
-  //       const [ctg, startStr, endStr] = item.split(':');
-  //       const noIntervalInfo =  startStr === undefined && endStr === undefined
-  //       const start = noIntervalInfo ? 0 : Number(startStr);
-  //       const end = noIntervalInfo ? 0 : Number(endStr);
-  //       if (isNaN(start) || isNaN(end)) {
-  //         const errStr = isNaN(start) ? startStr : endStr;
-  //         const errorPosInfo = errorPos(line, errStr, item);
-  //         throw new Error(`format error at karyotype file '${karyotype}' line ${index + 1}\n${errorPosInfo}\n'${errStr}' is not a number!`);
-  //       }
-  //       layout[index].push({ctg, start, end, leftDash, rightDash})
-  //     }
-  //   }
-  // }
   return options;
 }

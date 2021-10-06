@@ -19,7 +19,8 @@ export type DrawOptionsItem = {
 export type IntervalInfoByAlignments = {[ctg: string]: {start: number, end: number}};
 
 export type Options = {
-  inputs: string[];
+  inputs?: string[];
+  inputContent?: string;
   min_alignment_length: number;
   min_identity: number;
   min_bit_score: number;
@@ -37,9 +38,12 @@ export type Options = {
   svg_content_width: number;
   svg_space: number;
   karyotype?: string;
+  karyotypeContent?: string;
   highlight?: string[];
+  highlightContent?: string;
   hl_min1px?: boolean;
   gff?: string[];
+  gffContent?: string;
   scale?: number;
   show_scale: boolean;
   chro_axis?: boolean;
@@ -47,6 +51,7 @@ export type Options = {
   chro_axis_pos: 'top' | 'bottom' | 'both';
   align: 'center' | 'left' | 'right';
   parameter?: string;
+  parameterContent?: string;
   layout: Layout;
   svg_template?: SvgTemplate;
   svg?: string;

@@ -7,42 +7,65 @@ import { errorPos, intersection } from '@linkview/linkview-align-parser';
 
 const HIGHLIGHT_DEFAULT_COLOR = 'red';
 
+type HighlightsMap = {
+  [ctg: string]: {start: number, end: number, color: string}[]
+};
+
+function assignHighlightsMap(target: HighlightsMap, source: HighlightsMap) {
+  for (let ctg in source) {
+    if (!(ctg in target)) {
+      target[ctg] = source[ctg];
+    } else {
+      target[ctg].push(...source[ctg]);
+    }
+  }
+}
+
 function parseHighlightFile(highlightFiles: string[]) {
-  const highlightsMap: {
-    [ctg: string]: {start: number, end: number, color: string}[]
-  } = {}
+  const highlightsMap: HighlightsMap = {}
   for (let highlightFile of highlightFiles) {
     const content = fs.readFileSync(highlightFile).toString().trim();
-    const lines = content.split('\n');
-    for (let index = 0, count = lines.length; index < count; index++) {
-      const line = lines[index];
-      if (line.startsWith('#')) continue;
-      const [ctg, startStr, endStr, color] = line.split(/\s+/);
-      const start = parseBases(startStr);
-      const end = parseBases(endStr);
-      if (isNaN(start)) {
-        const errorInfo = errorPos(line, [ctg, startStr, endStr, color], 1);
-        throw new Error(
-          `${startStr} cannot be resolved to number of bases! in '${highlightFile}' line ${
-            index + 1
-          }:\n${errorInfo}`
-        );
-      }
-      if (isNaN(end)) {
-        const errorInfo = errorPos(line, [ctg, startStr, endStr, color], 1);
-        throw new Error(
-          `${endStr} cannot be resolved to number of bases! in '${highlightFile}' line ${
-            index + 1
-          }:\n${errorInfo}`
-        );
-      }
-      if (!(ctg in highlightsMap)) highlightsMap[ctg] = [];
-      highlightsMap[ctg].push({
-        start,
-        end,
-        color: color ? color : HIGHLIGHT_DEFAULT_COLOR
-      })
+    const highlightsMapSingle = parseHighligtContent(content);
+    assignHighlightsMap(highlightsMap, highlightsMapSingle);
+  }
+  return highlightsMap;
+}
+
+function parseHighligtContent(
+  content: string | undefined,
+  fineName: string = 'HIGHLIGHT'
+) {
+  const highlightsMap: HighlightsMap = {};
+  if (!content) return highlightsMap;
+  const lines = content.split('\n');
+  for (let index = 0, count = lines.length; index < count; index++) {
+    const line = lines[index];
+    if (line.startsWith('#')) continue;
+    const [ctg, startStr, endStr, color] = line.split(/\s+/);
+    const start = parseBases(startStr);
+    const end = parseBases(endStr);
+    if (isNaN(start)) {
+      const errorInfo = errorPos(line, [ctg, startStr, endStr, color], 1);
+      throw new Error(
+        `${startStr} cannot be resolved to number of bases! in '${fineName}' line ${
+          index + 1
+        }:\n${errorInfo}`
+      );
     }
+    if (isNaN(end)) {
+      const errorInfo = errorPos(line, [ctg, startStr, endStr, color], 1);
+      throw new Error(
+        `${endStr} cannot be resolved to number of bases! in '${fineName}' line ${
+          index + 1
+        }:\n${errorInfo}`
+      );
+    }
+    if (!(ctg in highlightsMap)) highlightsMap[ctg] = [];
+    highlightsMap[ctg].push({
+      start,
+      end,
+      color: color ? color : HIGHLIGHT_DEFAULT_COLOR,
+    });
   }
   return highlightsMap;
 }

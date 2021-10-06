@@ -46,7 +46,7 @@ function parseAttributes(attr: string) {
   return res;
 }
 
-function parseGff(gff: string, ctgs: Set<string>) {
+function parseGff(gffFile: string, ctgs: Set<string>) {
   // const content = fs.readFileSync('gff').toString().trim();
   // const lines = content.split('/n');
   // 存储 mRNA 的相关信息，通过 mRNAId 索引
@@ -65,8 +65,7 @@ function parseGff(gff: string, ctgs: Set<string>) {
     };
   };
   
-
-  return eachLine(gff, (line) => {
+  return eachLine(gffFile, (line) => {
     if (line.startsWith('#') || line.trim() === '') return true;
     let [ctg, source, annoType, start, end, score, strand, phase, attrStr] = line.split('\t');
     if (!ctgs.has(ctg)) return true;
@@ -103,6 +102,60 @@ function parseGff(gff: string, ctgs: Set<string>) {
   }).then(() => {
     return {mRNAInfoMap, ctg2MRNAInfos};
   })
+}
+
+function parseGffContent(gffContent: string, ctgs: Set<string>) {
+  // 存储 mRNA 的相关信息，通过 mRNAId 索引
+  const mRNAInfoMap: MRNAInfoMap = {};
+  // 通过 ctg 索引的 mRNAInfo 列表
+  const ctg2MRNAInfos: Ctg2MRNAInfos = {};
+
+  const initMRNAInfoMap = (mRNAId: string) => {
+    mRNAInfoMap[mRNAId] = {
+      exons: [],
+      UTR3s: [],
+      UTR5s: [],
+      pos: [-1, -1],
+      parent: undefined,
+      strand: '+',
+    };
+  };
+  const lines = gffContent.trim().split('\n');
+  for (const line of lines) {
+    if (line.startsWith('#') || line.trim() === '') continue;
+    let [ctg, source, annoType, start, end, score, strand, phase, attrStr] = line.split('\t');
+    if (!ctgs.has(ctg)) continue;
+    const attr =  parseAttributes(attrStr);
+    const annoId = attr.ID;
+    annoType = annoType.toLowerCase();
+    if (mRnaType.includes(annoType)) {
+      // 初始化
+      if (!mRNAInfoMap[annoId]) {
+        initMRNAInfoMap(annoId);
+      }
+      mRNAInfoMap[annoId].pos = [Number(start), Number(end)];
+      mRNAInfoMap[annoId].parent = attr.Parent;
+      mRNAInfoMap[annoId].strand = strand as '+' | '-';
+      if (!ctg2MRNAInfos[ctg]) ctg2MRNAInfos[ctg] = [];
+      ctg2MRNAInfos[ctg].push(mRNAInfoMap[annoId]);
+    } else if (exonType.includes(annoType)) {
+      const mRNAId = attr.Parent;
+      if (!mRNAId) continue;
+      if (!mRNAInfoMap[mRNAId]) initMRNAInfoMap(annoId);
+      mRNAInfoMap[mRNAId].exons.push([Number(start), Number(end)]);
+    } else if (utr3Type.includes(annoType)) {
+      const mRNAId = attr.Parent;
+      if (!mRNAId) continue;
+      if (!mRNAInfoMap[mRNAId]) initMRNAInfoMap(annoId);
+      mRNAInfoMap[mRNAId].UTR3s.push([Number(start), Number(end)]);
+    } else if (utr5Type.includes(annoType)) {
+      const mRNAId = attr.Parent;
+      if (!mRNAId) continue;
+      if (!mRNAInfoMap[mRNAId]) initMRNAInfoMap(annoId);
+      mRNAInfoMap[mRNAId].UTR5s.push([Number(start), Number(end)]);
+    }
+  }
+  return {mRNAInfoMap, ctg2MRNAInfos};
 }
 
 function assignCtg2MRNAInfosSingle(
@@ -182,8 +235,7 @@ function renderExons(intervals: [number, number][], direction: number, layoutIte
 
 export default async function geneSvg(this: Options) {
   const options = this;
-  const { layout, gff: gffs } = options;
-  if (!gffs || gffs.length === 0) return options;
+  const { layout, gff: gffs, gffContent } = options;
   const svgContents: string[] = [];
   const mRNAInfoMap: MRNAInfoMap = {};
   const ctg2MRNAInfos: Ctg2MRNAInfos = {};
@@ -195,9 +247,14 @@ export default async function geneSvg(this: Options) {
       ctgs.add(ctg);
     })
   })
-
-  for (let gff of gffs) {
-    const {mRNAInfoMap: mRNAInfoMapSingle, ctg2MRNAInfos: ctg2MRNAInfosSingle} = await parseGff(gff, ctgs)
+  if (gffs) {
+    for (let gff of gffs) {
+      const {mRNAInfoMap: mRNAInfoMapSingle, ctg2MRNAInfos: ctg2MRNAInfosSingle} = await parseGff(gff, ctgs)
+      Object.assign(mRNAInfoMap, mRNAInfoMapSingle);
+      assignCtg2MRNAInfosSingle(ctg2MRNAInfos, ctg2MRNAInfosSingle)
+    }
+  } else if (gffContent) {
+    const {mRNAInfoMap: mRNAInfoMapSingle, ctg2MRNAInfos: ctg2MRNAInfosSingle} = parseGffContent(gffContent, ctgs)
     Object.assign(mRNAInfoMap, mRNAInfoMapSingle);
     assignCtg2MRNAInfosSingle(ctg2MRNAInfos, ctg2MRNAInfosSingle)
   }

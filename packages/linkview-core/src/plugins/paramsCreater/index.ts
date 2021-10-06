@@ -21,7 +21,7 @@ const typoOfDrawOptions = {
 export default function paramsCreater(this: Options) {
   const options = this;
   const drawOptions: DrawOptionsItem[] = []
-  const { parameter } = options;
+  const { parameter, parameterContent } = options;
   const defualtDrawOptionsItem = {
     chro_thickness: options.chro_thickness,
     no_label: options.no_label,
@@ -38,8 +38,9 @@ export default function paramsCreater(this: Options) {
   }
   options.defualtDrawOptionsItem = defualtDrawOptionsItem;
   options.getDrawOptionsItem = (index: number) => index in drawOptions! ? drawOptions![index] : defualtDrawOptionsItem!;
-  if (!parameter) return;
-  const content = fs.readFileSync(parameter).toString();
+  const content = parameter ? fs.readFileSync(parameter).toString() : parameterContent;
+  const parameterFile = parameter ? parameter : 'PARAMETER';
+  if (!content) return options;
   const lines = content.split('\n');
   for ( let index = 0, lineCount = lines.length; index < lineCount; index++) {
     const line = lines[index];
@@ -50,7 +51,7 @@ export default function paramsCreater(this: Options) {
       const [drawOption, value] = item.split('=');
       let convertValue: boolean | number | string = value;
       if (!(drawOption in typoOfDrawOptions)) {
-        const info = errorPos(line, drawOption);
+        const info = errorPos(line, drawOption, item);
         warn(`Illegal drawoption in '${drawOption}' ${parameter} line ${index + 1}\n${info}`);
         continue;
       }
@@ -76,7 +77,7 @@ export default function paramsCreater(this: Options) {
       }
       } catch(error) {
         const errPosInfo = errorPos(line, value, item);
-        (error as Error).message = `${(error as Error).message } at ${parameter} line ${index + 1}\n${errPosInfo}`
+        (error as Error).message = `${(error as Error).message } at ${parameterFile} line ${index + 1}\n${errPosInfo}`
         throw error;
       }
       (drawOptionsItem[drawOption as keyof DrawOptionsItem] as boolean | number) = convertValue! as boolean | number;

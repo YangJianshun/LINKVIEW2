@@ -1,4 +1,4 @@
-import alignParser, { Alignment, AlignmentsByCtgs, calculateSubAlign } from '@linkview/linkview-align-parser';
+import alignParser, { Alignment, AlignmentsByCtgs, calculateSubAlign, alignParserFromContent } from '@linkview/linkview-align-parser';
 import { Options, IntervalInfoByAlignments } from '../../@types/options';
 import { LayoutItem } from '../../@types/layout';
 import { warn } from '../../utils/error';
@@ -23,6 +23,7 @@ export default async function alignCreater(this: Options) {
   const options = this;
   const {
     inputs,
+    inputContent,
     min_alignment_length: minAlignmentLength,
     min_identity: minIdentity,
     min_bit_score: minBitScore,
@@ -32,14 +33,33 @@ export default async function alignCreater(this: Options) {
   const lenInfoAll: { [ctg: string]: number } = {};
   const alignmentsAll: Alignment[] = [];
   const alignmentsByCtgsAll: AlignmentsByCtgs = {};
-  for (let input of inputs) {
-    const { alignments, lenInfo, alignmentsByCtgs } = await alignParser(input, {
-      minIdentity,
-      minAlignmentLength,
-      maxEvalue,
-      minBitScore,
-      filterCtgPairs: [],
-    });
+  if (inputs) {
+    for (let input of inputs) {
+      const { alignments, lenInfo, alignmentsByCtgs } = await alignParser(
+        input,
+        {
+          minIdentity,
+          minAlignmentLength,
+          maxEvalue,
+          minBitScore,
+          filterCtgPairs: [],
+        }
+      );
+      Object.assign(lenInfoAll, lenInfo);
+      alignmentsAll.push(...alignments);
+      assignAlignmentsByCtgs(alignmentsByCtgsAll, alignmentsByCtgs);
+    }
+  } else if (inputContent) {
+    const { alignments, lenInfo, alignmentsByCtgs } = alignParserFromContent(
+      inputContent,
+      {
+        minIdentity,
+        minAlignmentLength,
+        maxEvalue,
+        minBitScore,
+        filterCtgPairs: [],
+      }
+    );
     Object.assign(lenInfoAll, lenInfo);
     alignmentsAll.push(...alignments);
     assignAlignmentsByCtgs(alignmentsByCtgsAll, alignmentsByCtgs);
