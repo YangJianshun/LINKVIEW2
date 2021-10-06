@@ -1,10 +1,11 @@
-import alignParser from './main';
+import alignParser, { alignParserFromContent } from './main';
 // import { withErrorConsole } from './utils/error';
 
 export * from './@types';
 export * from './calculateSubAlign';
 export * from './parser';
 export * from './utils';
+export { alignParserFromContent } from './main';
 export default alignParser;
 // export default alignParser;
 

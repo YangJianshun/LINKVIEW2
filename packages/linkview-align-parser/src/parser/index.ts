@@ -7,91 +7,91 @@ import { isNumber } from '../utils/number';
 import { average } from '../utils/array';
 import { checkLine } from '../checkType/checkTypeByHeadLines';
 import { errorPos } from '../utils/error';
-import { withErrorConsole } from '../utils/error';
 
 // 根据 parserOpt，生成一个解析函数，把每一行解析成固定的格式
-export const parserCreater = (parserOpt: ParserOpt, fileName: string) => withErrorConsole((line: string) => {
-  line = line.trim();
-  if (!parserOpt) return null;
-  const { split, columns } = parserOpt;
-  const items = line.split(split);
-  const alignment: Alignment = {
-    ctg1: '',
-    start1: 0,
-    end1: 0,
-    ctg2: '',
-    start2: 0,
-    end2: 0,
-    alignLen: 0,
-    color: DEFAULT_COLOR_FLAG,
-    opacity: DEFAULT_OPACITY_FLAG,
-  };
-  const alignLens: number[] = []; // 用于计算 alignLen 平均值， 如果一行有多个 alignLen
-  let shouldReverse: boolean = false; // 是否需要交换 start1 和 end1 的值，minimap strand 为 -，需要交换
-  for (const index in parserOpt.columns) {
-    const colum = columns[index];
-    const value = items[index];
-    if (['ctg1', 'ctg2'].includes(colum)) {
-      alignment[colum as 'ctg1' | 'ctg2'] = value;
-    } else if (
-      [
-        'start1',
-        'end1',
-        'start2',
-        'end2',
-        'identity',
-        'evalue',
-        'bitScore',
-        'len1',
-        'len2',
-      ].includes(colum)
-    ) {
-      if (!isNumber(value)) {
-        const errorInfo = errorPos(line, items, index);
-        throw new Error(
-          `${colum} should be a number, but get '${value}' in '${fileName}': \n${errorInfo} \n`
-        );
+export const parserCreater =
+  (parserOpt: ParserOpt, fileName: string) => (line: string) => {
+    line = line.trim();
+    if (!parserOpt) return null;
+    const { split, columns } = parserOpt;
+    const items = line.split(split);
+    const alignment: Alignment = {
+      ctg1: '',
+      start1: 0,
+      end1: 0,
+      ctg2: '',
+      start2: 0,
+      end2: 0,
+      alignLen: 0,
+      color: DEFAULT_COLOR_FLAG,
+      opacity: DEFAULT_OPACITY_FLAG,
+    };
+    const alignLens: number[] = []; // 用于计算 alignLen 平均值， 如果一行有多个 alignLen
+    let shouldReverse: boolean = false; // 是否需要交换 start1 和 end1 的值，minimap strand 为 -，需要交换
+    for (const index in parserOpt.columns) {
+      const colum = columns[index];
+      const value = items[index];
+      if (['ctg1', 'ctg2'].includes(colum)) {
+        alignment[colum as 'ctg1' | 'ctg2'] = value;
+      } else if (
+        [
+          'start1',
+          'end1',
+          'start2',
+          'end2',
+          'identity',
+          'evalue',
+          'bitScore',
+          'len1',
+          'len2',
+        ].includes(colum)
+      ) {
+        if (!isNumber(value)) {
+          const errorInfo = errorPos(line, items, index);
+          throw new Error(
+            `${colum} should be a number, but get '${value}' in '${fileName}': \n${errorInfo} \n`
+          );
+        }
+        alignment[
+          colum as
+            | 'start1'
+            | 'end1'
+            | 'start2'
+            | 'end2'
+            | 'identity'
+            | 'evalue'
+            | 'bitScore'
+        ] = Number(value);
+      } else if (colum === 'alignLen') {
+        isNumber(value) && alignLens.push(Number(value));
+      } else if (colum === 'color:opacity' && value) {
+        const [color, opacity] = value.split(':');
+        alignment.color = color;
+        alignment.opacity = isNumber(opacity) ? Number(opacity) : 1;
+        // 如果 minimap， strand 为 ‘-’，需要把 start1 和 end1 交换位置
+      } else if (colum === 'minimapStrand' && value === '-') {
+        shouldReverse = true;
       }
-      alignment[
-        colum as
-          | 'start1'
-          | 'end1'
-          | 'start2'
-          | 'end2'
-          | 'identity'
-          | 'evalue'
-          | 'bitScore'
-      ] = Number(value);
-    } else if (colum === 'alignLen') {
-      isNumber(value) && alignLens.push(Number(value));
-    } else if (colum === 'color:opacity' && value) {
-      const [color, opacity] = value.split(':');
-      alignment.color = color;
-      alignment.opacity = isNumber(opacity) ? Number(opacity) : 1;
-      // 如果 minimap， strand 为 ‘-’，需要把 start1 和 end1 交换位置
-    } else if (colum === 'minimapStrand' && value === '-') {
-      shouldReverse = true;
     }
+    if (shouldReverse) {
+      const { start1, end1 } = alignment;
+      [alignment.start1, alignment.end1] = [end1, start1];
+    }
+    if (alignLens.length > 0) alignment.alignLen = average(alignLens);
+    if (alignment.alignLen === 0) {
+      const { start1, end1, start2, end2 } = alignment;
+      alignment.alignLen =
+        (Math.abs(start1 - end1) + 1 + Math.abs(start2 - end2) + 1) / 2;
+    }
+    // console.log(alignment);
+    return alignment;
+  };
 
-  }
-  if (shouldReverse) {
-    const { start1, end1 } = alignment;
-    [alignment.start1, alignment.end1] = [end1, start1];
-  }
-  if (alignLens.length > 0) alignment.alignLen = average(alignLens);
-  if (alignment.alignLen === 0) {
-    const { start1, end1, start2, end2 } = alignment;
-    alignment.alignLen =
-      (Math.abs(start1 - end1) + 1 + Math.abs(start2 - end2) + 1) / 2;
-  }
-  // console.log(alignment);
-  return alignment;
-});
-
-// 常规过滤，比如注释行等
+// 常规过滤，比如注释行, NUCMER 开头的行等
 // 根据 parserOpt.filters 生成一个过滤函数，用于 eachLine 过滤
 export const filterCreater =
-  (parserOptFilters: LineCharacteristic[] | null | undefined) => (line: string) => {
+  (parserOptFilters: LineCharacteristic[] | null | undefined) =>
+  (line: string) => {
     line = line.trim();
     let filterCondition = line === '' || line.startsWith('#');
     if (parserOptFilters)
@@ -107,11 +107,11 @@ const parseAlignFile = (
   fileName: string,
   parser: ReturnType<typeof parserCreater>,
   filter: ReturnType<typeof filterCreater>,
-  filterAlign: ((alignment: Alignment) => boolean )| null = null
+  filterAlign: ((alignment: Alignment) => boolean) | null = null
 ) => {
   const alignments: Alignment[] = [];
   const alignmentsByCtgs: AlignmentsByCtgs = {};
-  const lenInfo: {[ctg: string]: number} = {}
+  const lenInfo: { [ctg: string]: number } = {};
   return eachLine(
     fileName,
     (line) => {
@@ -119,35 +119,78 @@ const parseAlignFile = (
       const alignment = parser(line);
       // 获取 ctg 长度信息
       if (alignment) {
-        const {len1, len2, ctg1, ctg2} = alignment;
-        if (len1) lenInfo[ctg1] = len1
-        if (len2) lenInfo[ctg2] = len2
+        const { len1, len2, ctg1, ctg2 } = alignment;
+        if (len1) lenInfo[ctg1] = len1;
+        if (len2) lenInfo[ctg2] = len2;
         delete alignment.len1;
         delete alignment.len2;
-      }
-      
-      // 存储 alignment，分别存到 alignmentsByCtgs 和 alignments 中
-      const { ctg1, ctg2 } = alignment;
-      if (!(ctg1 in alignmentsByCtgs)) alignmentsByCtgs[ctg1] = {};
-      if (!(ctg2 in alignmentsByCtgs[ctg1])) alignmentsByCtgs[ctg1][ctg2] = [];
-      if (!(ctg2 in alignmentsByCtgs)) alignmentsByCtgs[ctg2] = {};
-      if (!(ctg1 in alignmentsByCtgs[ctg2])) alignmentsByCtgs[ctg2][ctg1] = [];
 
-      alignment && // 这个 alignment 不为 null
-        (filterAlign ? !filterAlign(alignment) : true) && // 这个 alignment 不被过滤
-        alignments.push(alignment) &&
-        alignmentsByCtgs[ctg1][ctg2].push(alignment) &&
-        alignmentsByCtgs[ctg2][ctg1].push(alignment);
+        // 存储 alignment，分别存到 alignmentsByCtgs 和 alignments 中
+        if (!(ctg1 in alignmentsByCtgs)) alignmentsByCtgs[ctg1] = {};
+        if (!(ctg2 in alignmentsByCtgs[ctg1]))
+          alignmentsByCtgs[ctg1][ctg2] = [];
+        if (!(ctg2 in alignmentsByCtgs)) alignmentsByCtgs[ctg2] = {};
+        if (!(ctg1 in alignmentsByCtgs[ctg2]))
+          alignmentsByCtgs[ctg2][ctg1] = [];
+
+        alignment && // 这个 alignment 不为 null
+          (filterAlign ? !filterAlign(alignment) : true) && // 这个 alignment 不被过滤
+          alignments.push(alignment) &&
+          alignmentsByCtgs[ctg1][ctg2].push(alignment) &&
+          alignmentsByCtgs[ctg2][ctg1].push(alignment);
+      }
 
       // 返回 true 就是一直读下去
       return true;
     },
     filter
-  )
-    .then(() => {
-      // 读完了
-      return { alignments, alignmentsByCtgs, lenInfo };
-    })
+  ).then(() => {
+    // 读完了
+    return { alignments, alignmentsByCtgs, lenInfo };
+  });
+};
+
+export const parseAlignFromContent = (
+  content: string,
+  parser: ReturnType<typeof parserCreater>,
+  filter: ReturnType<typeof filterCreater>,
+  filterAlign: ((alignment: Alignment) => boolean) | null = null
+) => {
+  const alignments: Alignment[] = [];
+  const alignmentsByCtgs: AlignmentsByCtgs = {};
+  const lenInfo: { [ctg: string]: number } = {};
+
+  const lines = content.trim().split('\n');
+  lines.forEach((line) => {
+    // 获取每一行的解析结果
+    const alignment = parser(line);
+    // 获取 ctg 长度信息
+    if (alignment) {
+      const { len1, len2, ctg1, ctg2 } = alignment;
+      if (len1) lenInfo[ctg1] = len1;
+      if (len2) lenInfo[ctg2] = len2;
+      delete alignment.len1;
+      delete alignment.len2;
+
+      // 存储 alignment，分别存到 alignmentsByCtgs 和 alignments 中
+      if (!(ctg1 in alignmentsByCtgs)) alignmentsByCtgs[ctg1] = {};
+      if (!(ctg2 in alignmentsByCtgs[ctg1]))
+        alignmentsByCtgs[ctg1][ctg2] = [];
+      if (!(ctg2 in alignmentsByCtgs)) alignmentsByCtgs[ctg2] = {};
+      if (!(ctg1 in alignmentsByCtgs[ctg2]))
+        alignmentsByCtgs[ctg2][ctg1] = [];
+
+      alignment && // 这个 alignment 不为 null
+        (!filter(line)) && // 满足常规过滤条件
+        (filterAlign ? !filterAlign(alignment) : true) && // 这个 alignment 不被过滤
+        alignments.push(alignment) &&
+        alignmentsByCtgs[ctg1][ctg2].push(alignment) &&
+        alignmentsByCtgs[ctg2][ctg1].push(alignment);
+    }
+  });
+
+  
+  return { alignments, alignmentsByCtgs, lenInfo };
 };
 
 export default parseAlignFile;
