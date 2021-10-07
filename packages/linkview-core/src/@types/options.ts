@@ -55,7 +55,7 @@ export type Options = {
   layout: Layout;
   svg_template?: SvgTemplate;
   svg?: string;
-  use: <T>(plugin: (...args: any) => void) => Promise<T>;
+  use: <T>(plugin: (...args: any) => void) => Promise<T> | void;
   drawOptions?: DrawOptionsItem[];
   defualtDrawOptionsItem?: DrawOptionsItem;
   getDrawOptionsItem?: (index: number) => DrawOptionsItem;

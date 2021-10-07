@@ -1,0 +1,55 @@
+.head .ant-page-header-heading .ant-page-header-heading-title {
+  font-size: 48px !important;
+  height: 68px;
+  line-height: 68px;
+}
+
+.head .ant-page-header-heading .ant-page-header-heading-sub-title {
+  font-size: 28px;
+  height: 68px;
+  line-height: 68px;
+}
+
+.head .github-icon {
+  font-size: 48px;
+  height: 68px;
+  line-height: 68px;
+  color: rgb(37, 41, 46);
+}
+
+.head .github-icon:hover {
+  color: rgba(37, 41, 46, 0.8);
+}
+
+.head {
+  /* border-bottom: 1px solid rgba(37, 41, 46, 0.8); */
+  box-shadow: rgba(37, 41, 46, 0.8) 0px 0px 8px;
+  margin-bottom: 50px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background-color: whitesmoke;
+}
+
+.head .supplement {
+  font-size: 25px;
+}
+
+.main-container {
+  margin-top: 220px;
+}
+
+.svg-container {
+  position: fixed;
+  top: '50%';
+  right: '4.17%';
+  z-index: 1;
+  /* border: 1px solid red; */
+  border-left: 1px dashed grey;
+  border-right: 1px dashed grey;
+  width: 1200px;
+  height: 1000px;
+  overflow-x: scroll;
+}

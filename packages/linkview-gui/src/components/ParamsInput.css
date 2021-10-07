@@ -1,0 +1,24 @@
+.file-input {
+  font-size: 18px;
+}
+
+.ant-form-item-label > label {
+  font-size: 20px;
+}
+
+.ant-form label {
+  font-size: 20px;
+}
+
+.ant-collapse-header {
+  font-size: 20px;
+}
+
+.clear-btn {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.clear-btn:hover {
+  color: rgb(65, 144, 247);
+}

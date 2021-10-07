@@ -31,55 +31,55 @@ export const SVG_CLIPPATH_END = '</clipPath></defs>';
 export const styles = {
   classic: `<defs><style>
     .chro{
-        fill: #838B83;            
+        fill: rgb(131, 139, 131);      
     }
     .align {
-        fill: #607B8B;
+        fill: rgb(96, 123, 139);
         opacity: 0.5;
     }
     .line {
-        stroke: #000000;
+        stroke: rgb(0, 0, 0);
         stroke-width: 3.5px;
     }
     .exon {
-        fill: #36648B;
+        fill: rgb(54, 100, 139);
     }
     .UTR3 {
-        fill: #2F4F4F;
+        fill: rgb(47, 79, 79);
     }
     .UTR5 {
-        fill: #2F4F4F;
+        fill: rgb(47, 79, 79);
     }
     .intron {
-        stroke: #36648B;
+        stroke: rgb(54, 100, 139);
         stroke-width: 1.5px;
     }        
-  </style></defs>`,
+  </style></defs>`.replace(/\s+/g, ''),
   simple: `<defs><style>
     .chro{
-        stroke: #000000;
+        stroke: rgb(0, 0, 0);
         fill: none;
     }
     .align {
-        fill: #B7B7B7;
+        fill: rgb(183, 183, 183);
         opacity: 0.5;
     }
     .line {
-        stroke: #000000;
+        stroke: rgb(0, 0, 0);
         stroke-width: 3.5px;
     }
     .exon {
-        fill: 	#515151;
+        fill: rgb(81, 81, 81);
     }
     .UTR3 {
-        fill: #2F4F4F;
+        fill: rgb(47, 79, 79);
     }
     .UTR5 {
-        fill: #2F4F4F;
+        fill: rgb(47, 79, 79);
     }
     .intron {
-        stroke: #515151;
+        stroke: rgb(81, 81, 81);
         stroke-width: 1.5px;
     }        
-  </style></defs>`,
+  </style></defs>`.replace(/\s+/g, ''),
 };

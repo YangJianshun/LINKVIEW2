@@ -32,7 +32,7 @@ export default function paramsCreater(this: Options) {
     label_y_offset: options.label_y_offset,
     chro_axis: options.chro_axis as boolean,
     chro_axis_pos: options.chro_axis_pos,
-    chro_axis_unit: options.chro_axis_unit,
+    chro_axis_unit: parseParamAxisUnit(options.chro_axis_unit as string, 'chro_axis_unit'),
     gap_length: options.gap_length,
     align: options.align,
   }

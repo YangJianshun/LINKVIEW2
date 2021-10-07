@@ -74,8 +74,9 @@ export default function highlightSvg(this: Options) {
   const options = this;
   const { layout } = options;
   const svgContents: string[] = [];
-  if (!options.highlight) return options;
-  const highlightsMap = parseHighlightFile(options.highlight);
+  const {highlight, highlightContent} = options;
+  if ((!highlight) && (!highlightContent)) return options;
+  const highlightsMap = highlight ? parseHighlightFile(highlight) : parseHighligtContent(highlightContent);
   layout.forEach((layoutLine, index) => {
     const drawOptionsItem = options.getDrawOptionsItem!(index);
     layoutLine.forEach((layoutItem) => {

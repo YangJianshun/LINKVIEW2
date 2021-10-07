@@ -95,14 +95,13 @@ export default function axisSvg(this: Options) {
   const { layout, alignmentsByCtgs } = options;
   const svgContents: string[] = [];
   const unitAuto = inferUnit(layout);
-  // console.log('unit', unit);
-  // console.log(getSingleAxis(layout[0][2], unit, 'bottom'));
 
   layout.forEach((layoutLine, index) => {
     const drawOptionsItem = options.getDrawOptionsItem!(index);
     const {chro_axis: chroAxis, chro_axis_pos: chroAxisPos} = drawOptionsItem;
     if (chroAxis) {
       const unit = drawOptionsItem.chro_axis_unit === 'auto' ? unitAuto : drawOptionsItem.chro_axis_unit;
+      console.log('unit', unit);
       layoutLine.forEach(layoutItem => {
         svgContents.push(...getSingleAxis(layoutItem, unit, chroAxisPos));
       })

@@ -53,7 +53,7 @@ export default function paramsParser(): Options {
       (scale) => parseParamInt(scale, '--scale <number>'),
       0
     )
-    .option('--show_scale [string]', 'Display scale bar.');
+    .option('--show_scale', 'Display scale bar.');
 
   program
     .option('\nFilter options:')
@@ -107,7 +107,7 @@ export default function paramsParser(): Options {
       30
     )
     .option(
-      '--label_pos <left | right>',
+      '--label_pos <left | center |  right>',
       'Label position, left or right.',
       (labelPos) => parseParamLabelPos(labelPos, '--label_pos <left | right>'),
       'right'

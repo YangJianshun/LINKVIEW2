@@ -105,6 +105,7 @@ export function parseBases(val: string) {
 }
 
 export function parseParamAxisUnit(val: string, param: string): number | 'auto' {
+  val = val.toString();
   val = val.trim().toLowerCase();
   const result = val === 'auto' ? val : parseBases(val);
   if (result !== 'auto' && isNaN(result))

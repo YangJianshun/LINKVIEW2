@@ -45,7 +45,9 @@ export default function autoLayoutCreater(this: Options) {
         end: intervalInfoByAlignments[ctg].end,
       } as LayoutItem;
     }
-    if (ctgs.length === 1) {
+    if (ctgs.length === 0) {
+      // do nothing
+    } else if (ctgs.length === 1) {
       layout.push([ctg2LayoutItem(ctgs[0])]);
     } else if (ctgs.length === 2) {
       layout.push([ctg2LayoutItem(ctgs[1])], [ctg2LayoutItem(ctgs[0])]);

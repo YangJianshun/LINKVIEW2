@@ -12,7 +12,7 @@ import geneSvg from './geneSvg';
 
 export default async function svgCreater(this: Options) {
   const options = this;
-
+  options.svg_template = [];
   options.use(styleSvg);
   options.use(layoutSvg);
   options.use(labelSvg);
