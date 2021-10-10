@@ -21,7 +21,7 @@ export default function paramsParser(): Options {
   }
 
   program
-    .version('1.0.3')
+    .version('1.0.4')
     .name('LINKVIEW2')
     .argument('<input...>', 'input alignments file(s).');
 
