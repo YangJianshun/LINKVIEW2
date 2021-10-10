@@ -65,4 +65,5 @@ export type Options = {
   bezier?: boolean;
   style: 'classic' | 'simple';
   intervalInfoByAlignments: IntervalInfoByAlignments;
+  output?: string;
 }

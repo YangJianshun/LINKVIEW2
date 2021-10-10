@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { PageHeader, Row, Col, Alert } from 'antd';
 import ParamsInput from './components/ParamsInput';
-import { GithubOutlined } from '@ant-design/icons';
+import { GithubOutlined, DownloadOutlined } from '@ant-design/icons';
 import initOptions from './initOptions';
 import { main, Options } from '@linkview/linkview-core';
 import { useState } from 'react';
@@ -26,7 +26,9 @@ function App() {
       setErrMsg((error as Error).message);
     }
   }
-
+  // const save = () => {
+  //   const a = document.createElement
+  // }
   return (
     <div className='App'>
       <PageHeader
@@ -54,17 +56,34 @@ function App() {
           <ParamsInput onSubmit={onSubmit} />
         </Col>
         <Col span={10} offset={1}>
-          <div className='svg-container' key='svg'>
+          <div className='display-container' key='svg'>
             {errMsg ? (
               <Alert
                 message='LINKVIEW2 Error'
-                description={errMsg}
+                description={
+                  <code style={{ whiteSpace: 'pre-wrap' }}>{errMsg}</code>
+                }
                 type='error'
                 closable
-                style={{ marginLeft: 60, marginRight: 60 }}
+                className='error'
               />
-            ) : null}
-            <div dangerouslySetInnerHTML={{ __html: svg }}></div>
+            ) : (
+              <a
+                href={`data:text/plain;charset=utf-8,${svg.replaceAll(
+                  '#',
+                  '%23'
+                )}`}
+                download='linkview.svg'
+                className='download'
+              >
+                <DownloadOutlined />
+              </a>
+            )}
+
+            <div
+              className='svg-container'
+              dangerouslySetInnerHTML={{ __html: svg }}
+            ></div>
           </div>
         </Col>
       </Row>

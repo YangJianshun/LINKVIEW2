@@ -43,3 +43,20 @@ export const alignParserFromContent = (
 };
 
 export default alignParser;
+
+// const { alignType, alignments, alignmentsByCtgs, lenInfo } =
+//   alignParserFromContent(
+//     `a 1 100 b 1 100
+//     a 1 100 b 1 100
+//     a 1 100 b 1 100
+//     a 1 100 b 1 100
+//     a 1 100 b 1 100
+//     a 1 100 b 1 100
+//     a 1 100 b 1 100
+//     a 1 100 b 1 100
+//     a 1 100 b c 100`
+//   );
+
+// console.log('alignType', alignType)
+// console.log('alignments', alignments)
+// console.log('alignmentsByCtgs', alignmentsByCtgs)

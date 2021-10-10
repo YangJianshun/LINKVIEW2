@@ -173,6 +173,5 @@ export default async function alignCreater(this: Options) {
   }
   // if (ctgsWithNoInfo.size <= 0 ) return options;
 
-
   return options;
 }

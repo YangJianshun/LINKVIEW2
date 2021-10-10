@@ -89,6 +89,8 @@ typings/
 
 **/lib
 
+**/build
+
 .jest
 
 .idea

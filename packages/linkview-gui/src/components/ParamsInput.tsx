@@ -3,7 +3,9 @@ import { PlusOutlined, CloseCircleOutlined, FullscreenOutlined, FullscreenExitOu
 import './ParamsInput.css';
 import initOptions from '../initOptions';
 import { Options } from '@linkview/linkview-core';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import queryString from 'query-string';
+
 const { Option } = Select;
 const { TextArea } = Input;
 const { Panel } = Collapse;
@@ -13,14 +15,38 @@ type PropsType = {
 }
 
 const ParamsInput = ({ onSubmit }: PropsType) => {
+
+  const urlOptions = queryString.parse(
+    window.location.href.slice(window.location.href.indexOf('?') + 1),
+    { parseBooleans: true, parseNumbers: true }
+  );
+
   const [form] = Form.useForm();
   const [showKaryotype, setShowKaryotype] = useState<boolean>(false);
   const [showHighlight, setShowHighlight] = useState<boolean>(false);
   const [showParameter, setShowParameter] = useState<boolean>(false);
   const [showGff, setShowGff] = useState<boolean>(false);
+  console.log('showKaryotype', showKaryotype)
+
+  const addKaryotypeRef = useRef(null);
+  const addHighlightRef = useRef(null);
+  const addParameterRef = useRef(null);
+  const addGffRef = useRef(null);
+  Object.assign(initOptions, urlOptions)
+  console.log('urlOptions', urlOptions)
+  useEffect(() => {
+    // @ts-ignore
+    if (urlOptions.karyotypeContent) addKaryotypeRef.current.click();
+    // @ts-ignore
+    if (urlOptions.highlightContent) addHighlightRef.current.click();
+    // @ts-ignore
+    if (urlOptions.parameterContent) addParameterRef.current.click();
+    // @ts-ignore
+    if (urlOptions.gffContent) addGffRef.current.click();
+    if ('autoSubmit' in urlOptions) form.submit();
+  }, []);
 
   const onFinish = (values: any) => {
-
     const svg_width = values.svg_width ? values.svg_width : initOptions.svg_width;
     const svg_space = values.svg_space ? values.svg_space : initOptions.svg_space;
     onSubmit({
@@ -56,7 +82,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
         label=''
         initialValue={initOptions.inputContent}
       >
-        <TextArea rows={10} wrap='off' className='file-input' allowClear />
+        <TextArea rows={10} wrap='off' className='file-input' allowClear onBlur={() => form.submit()}/>
       </Form.Item>
       {/* 折叠面板 */}
       <Collapse ghost style={{ marginBottom: 20 }}>
@@ -477,6 +503,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
                   onClick={() => {
                     setShowKaryotype(false);
                     remove(field.name);
+                    form.submit();
                   }}
                   className='clear-btn'
                 />
@@ -492,6 +519,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
                     className='file-input'
                     size='large'
                     allowClear
+                    onBlur={() => form.submit()}
                   />
                 </Form.Item>
               </div>
@@ -500,6 +528,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
             {showKaryotype ? null : (
               <Form.Item>
                 <Button
+                  ref={addKaryotypeRef}
                   type='dashed'
                   onClick={() => {
                     setShowKaryotype(true);
@@ -526,6 +555,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
                   onClick={() => {
                     setShowHighlight(false);
                     remove(field.name);
+                    form.submit();
                   }}
                   className='clear-btn'
                 />
@@ -541,6 +571,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
                     className='file-input'
                     size='large'
                     allowClear
+                    onBlur={() => form.submit()}
                   />
                 </Form.Item>
               </div>
@@ -549,6 +580,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
             {showHighlight ? null : (
               <Form.Item>
                 <Button
+                  ref={addHighlightRef}
                   type='dashed'
                   onClick={() => {
                     setShowHighlight(true);
@@ -575,6 +607,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
                   onClick={() => {
                     setShowParameter(false);
                     remove(field.name);
+                    form.submit();
                   }}
                   className='clear-btn'
                 />
@@ -590,6 +623,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
                     className='file-input'
                     size='large'
                     allowClear
+                    onBlur={() => form.submit()}
                   />
                 </Form.Item>
               </div>
@@ -598,6 +632,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
             {showParameter ? null : (
               <Form.Item>
                 <Button
+                  ref={addParameterRef}
                   type='dashed'
                   onClick={() => {
                     setShowParameter(true);
@@ -623,6 +658,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
                   onClick={() => {
                     setShowGff(false);
                     remove(field.name);
+                    form.submit();
                   }}
                   className='clear-btn'
                 />
@@ -638,6 +674,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
                     className='file-input'
                     size='large'
                     allowClear
+                    onBlur={() => form.submit()}
                   />
                 </Form.Item>
               </div>
@@ -646,6 +683,7 @@ const ParamsInput = ({ onSubmit }: PropsType) => {
             {showGff ? null : (
               <Form.Item>
                 <Button
+                  ref={addGffRef}
                   type='dashed'
                   onClick={() => {
                     setShowGff(true);

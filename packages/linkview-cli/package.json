@@ -1,6 +1,6 @@
 {
   "name": "@linkview/linkview-cli",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "LINKVIEW 命令行工具",
   "author": "YangJianshun <shunlintianxia@sina.com>",
   "homepage": "https://github.com/YangJianshun/LINKVIEW2#readme",
@@ -34,8 +34,10 @@
   },
   "dependencies": {
     "@linkview/linkview-core": "^1.0.0",
+    "@types/sharp": "^0.29.2",
     "chalk": "^4.1.2",
-    "commander": "^8.2.0"
+    "commander": "^8.2.0",
+    "sharp": "^0.29.1"
   },
   "devDependencies": {
     "jest": "^27.1.0"

@@ -163,6 +163,7 @@ export const parseAlignFromContent = (
   const lines = content.trim().split('\n');
   lines.forEach((line) => {
     // 获取每一行的解析结果
+    if (filter(line)) return;
     const alignment = parser(line);
     // 获取 ctg 长度信息
     if (alignment) {
@@ -181,7 +182,6 @@ export const parseAlignFromContent = (
         alignmentsByCtgs[ctg2][ctg1] = [];
 
       alignment && // 这个 alignment 不为 null
-        (!filter(line)) && // 满足常规过滤条件
         (filterAlign ? !filterAlign(alignment) : true) && // 这个 alignment 不被过滤
         alignments.push(alignment) &&
         alignmentsByCtgs[ctg1][ctg2].push(alignment) &&

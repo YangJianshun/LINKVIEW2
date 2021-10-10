@@ -183,6 +183,15 @@ export default function paramsParser(): Options {
       (svgWidth) => parseParamInt(svgWidth, '--svg_space <number>'),
       0.2
     );
+
+  program
+    .option('\nOutput options:')
+    .option(
+      '-o --output <string>',
+      'output file prefix.',
+      'linkview2_output'
+    )
+
   program.option('\n');
 
   program.addHelpText(

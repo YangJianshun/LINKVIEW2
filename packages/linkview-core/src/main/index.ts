@@ -21,43 +21,43 @@ export default async function main(options: Options) {
   return options.svg;
 }
 
-(async () => {
-  // @ts-ignore
-  const svg = await main({
-    inputContent: 'a 1 1000000 b 1 1000000',
-    min_alignment_length: 0,
-    max_evalue: 1e-5,
-    min_identity: 0,
-    min_bit_score: 1000,
-    chro_thickness: 15,
-    no_label: false,
-    label_angle: 30,
-    label_font_size: 30,
-    label_pos: 'right',
-    label_x_offset: 0,
-    label_y_offset: 0,
-    gap_length: 0.2,
-    svg_height: 800,
-    svg_width: 1200,
-    svg_space: 0.2,
-    svg_content_width: 1200 * (1 - 0.2),
-    show_scale: false,
-    scale: 0,
-    chro_axis: true,
-    chro_axis_pos: 'bottom',
-    chro_axis_unit: '10k',
-    align: 'center',
-    hl_min1px: false,
-    highlightContent: 'a 20 30',
-    // karyotypeContent: 'a:1:10\nb:1:10\nc:1:10',
-    karyotypeContent: '',
-    parameterContent: '',
-    gffContent: '',
+// (async () => {
+//   // @ts-ignore
+//   const svg = await main({
+//     inputContent: 'ctg1 1 10000000 ctg2 1 10000000\nctg1 1 10000000 ctg3 1 10000000\nctg3 1 10000000 ctg4 1 10000000\nctg4 1 10000000 ctg5 1 10000000',
+//     min_alignment_length: 0,
+//     max_evalue: 1e-5,
+//     min_identity: 0,
+//     min_bit_score: 1000,
+//     chro_thickness: 15,
+//     no_label: false,
+//     label_angle: 30,
+//     label_font_size: 30,
+//     label_pos: 'right',
+//     label_x_offset: 0,
+//     label_y_offset: 0,
+//     gap_length: 0.2,
+//     svg_height: 800,
+//     svg_width: 1200,
+//     svg_space: 0.2,
+//     svg_content_width: 1200 * (1 - 0.2),
+//     show_scale: false,
+//     scale: 0,
+//     chro_axis: false,
+//     chro_axis_pos: 'bottom',
+//     chro_axis_unit: '10k',
+//     align: 'center',
+//     hl_min1px: false,
+//     highlightContent: 'a 20 30',
+//     karyotypeContent: 'ctg1:1:10000000\nctg3:1:10000000 ctg2:10000000:1\nctg4:1:10000000\nctg5:1:10000000',
+//     // karyotypeContent: '',
+//     parameterContent: 'label_font_size=1\nlabel_font_size=2\n\nlabel_font_size=4',
+//     gffContent: '',
 
-    use: function (this: Options, plugin: (...args: any) => void) {
-      return plugin.apply(this);
-    },
-    style: 'classic',
-  } as Options);
-  console.log(svg);
-})();
+//     use: function (this: Options, plugin: (...args: any) => void) {
+//       return plugin.apply(this);
+//     },
+//     style: 'classic',
+//   } as Options);
+//   // console.log(svg);
+// })();

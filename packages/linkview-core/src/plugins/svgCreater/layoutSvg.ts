@@ -61,6 +61,8 @@ export default function layoutSvg(this: Options) {
   const options = this;
   const { layout, drawOptions } = options;
   // k 文件 和 p 文件 行数不同，需要提醒用户检查
+  // console.log('layout', layout)
+  // console.log('drawOptions', drawOptions)
   if (drawOptions && layout.length !== drawOptions.length) {
     warn(
       `${options.karyotype} and ${options.parameter} have different lines！You'd better check it carefully！`

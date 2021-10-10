@@ -101,7 +101,7 @@ export default function axisSvg(this: Options) {
     const {chro_axis: chroAxis, chro_axis_pos: chroAxisPos} = drawOptionsItem;
     if (chroAxis) {
       const unit = drawOptionsItem.chro_axis_unit === 'auto' ? unitAuto : drawOptionsItem.chro_axis_unit;
-      console.log('unit', unit);
+      // console.log('unit', unit);
       layoutLine.forEach(layoutItem => {
         svgContents.push(...getSingleAxis(layoutItem, unit, chroAxisPos));
       })

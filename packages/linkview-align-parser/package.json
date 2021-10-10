@@ -1,6 +1,6 @@
 {
   "name": "@linkview/linkview-align-parser",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "解析和过滤不同格式的DNA序列比对结果 (alignments)",
   "author": "YangJianshun <shunlintianxia@sina.com>",
   "homepage": "https://github.com/YangJianshun/LINKVIEW2#readme",
