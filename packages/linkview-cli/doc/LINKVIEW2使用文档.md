@@ -61,7 +61,7 @@ LINKVIEW2 是一个对 DNA 比对（alignments）进行可视化的工具，包�
    ```
    
 2. 运行命令 `LINKVIEW2 alignments.txt`, 您将得到如下图片
-   ![](./images/case1.png)
+   ![](https://github.com/YangJianshun/LINKVIEW2/blob/master/packages/linkview-cli/doc/images/case1.png?raw=true)
 
    [在LINKVIEW-GUI中尝试](https://yangjianshun.github.io/LINKVIEW2/?inputContent=ctg1%201%20100%20ctg2%201%20100%0actg1%20101%20120%20ctg2%20120%20101%20red%0actg2%20121%20150%20ctg1%20121%20150%20yellow:0.2&autoSubmit)
 
@@ -83,23 +83,23 @@ LINKVIEW2 是一个对 DNA 比对（alignments）进行可视化的工具，包�
 
 1. 新建文件 `alignments.txt`, 内容如下：
 
-```
-ctg1 1 100 ctg2 1 100
-ctg1 1 100 ctg3 100 1
-ctg3 101 200 ctg4 1 100
-```
+   ```
+   ctg1 1 100 ctg2 1 100
+   ctg1 1 100 ctg3 100 1
+   ctg3 101 200 ctg4 1 100
+   ```
 
 2. 新建文件 `karyotype.txt`, 内容如下：
 
-```
-ctg1:1:100
-ctg3:1:200 ctg2:1:100
-ctg4:1:100
-```
+   ```
+   ctg1:1:100
+   ctg3:1:200 ctg2:1:100
+   ctg4:1:100
+   ```
 
-运行命令 `LINKVIEW2 -k karyotype.txt alignments.txt`, 您将得到如下图片:
+​	运行命令 `LINKVIEW2 -k karyotype.txt alignments.txt`, 您将得到如下图片:
 
-![](./images/case2.png)
+![](https://github.com/YangJianshun/LINKVIEW2/blob/master/packages/linkview-cli/doc/images/case2.png?raw=true)
 
 
 
@@ -109,7 +109,7 @@ ctg4:1:100
 
 ​	解释：
 
-​	通过 `-k` 参数指定了绘图的布局文件`karyotype.txt`，LINKVIEW2 在绘图时，有一个层级的概念，`karyotype.txt`文件中的 4 行则对应了绘图结果中的 4 个层级，第一行`ctg1:1:100`指定绘制在第一层级绘制 ctg1 的 1 到 100 bp，第二行  `ctg3:1:200 ctg2:1:100`指定在第二层级绘制 ctg3 的 1 到 200 bp 和 ctg2 的 1 到 100 bp。第三行同理。
+​	通过 `-k` 参数指定了绘图的布局文件`karyotype.txt`，LINKVIEW2 在绘图时，有一个层级的概念，`karyotype.txt`文件中的 4 行则对	应了绘图结果中的 4 个层级，第一行`ctg1:1:100`指定绘制在第一层级绘制 ctg1 的 1 到 100 bp，第二行  `ctg3:1:200 ctg2:1:100`指	定在第二层级绘制 ctg3 的 1 到 200 bp 和 ctg2 的 1 到 100 bp。第三行同理。
 
 
 
@@ -126,7 +126,7 @@ ctg4:1:100
 
 2. 运行命令 `LINKVIEW2 -k karyotype.txt alignments.txt -hl highlight.txt --style simple --bezier`，您将得到如下图片：
 
-   ![](./images/case3.png)
+   ![](https://github.com/YangJianshun/LINKVIEW2/blob/master/packages/linkview-cli/doc/images/case3.png?raw=true)
    [在LINKVIEW-GUI中尝试](https://yangjianshun.github.io/LINKVIEW2/?inputContent=ctg1%201%20100%20ctg2%201%20100%0actg1%201%20100%20ctg3%20100%201%0actg3%20101%20200%20ctg4%201%20100%0a&karyotypeContent=ctg1:1:100%0actg3:1:200%20ctg2:1:100%0actg4:1:100&highlightContent=ctg1%2021%2030%0actg2%201%2010%0actg3%2051%2060%20yellow%0actg4%2091%20100%20green&style=simple&bezier=true&autoSubmit)
 
    
@@ -244,11 +244,9 @@ ctg4:1:100
 
 4. 运行命令 `LINKVIEW2 blast.out --gff genome1.gff,genome2.gff --style simple --bezier`，您将得到如下图片：
 
-   ![](./images/case4.png)
+   ![](https://github.com/YangJianshun/LINKVIEW2/blob/master/packages/linkview-cli/doc/images/case4.png?raw=true)
 
-   [在LINKVIEW-GUI中尝试](https://yangjianshun.github.io/LINKVIEW2/?inputContent=%23 BLASTN 2.2.28+%0a%23 Query: genome2%0a%23 Subject: genome1%0a%23 Fields: query id, subject id, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score%0a%23 5 hits found%0agenome2%09genome1%0999.10%095250%0925%0912%099256%0914492%098053%0913293%090.0%099415%0agenome2%09genome1%0999.05%092639%0915%096%091%092633%091%092635%090.0%094726%0agenome2%09genome1%0999.51%091023%093%092%092621%093642%097042%098063%090.0%091860%0agenome2%09genome1%0997.48%09992%097%099%0916460%0917451%0920448%0921421%090.0%091677%0agenome2%09genome1%09100.00%09586%090%090%0915890%0916475%0913293%0913878%090.0%091083%0a%23 BLAST processed 1 queries&highlightContent=genome1%092620%097041%09yellow%0agenome1%098037%098077%09red%0agenome1%0913272%0913312%09red%0agenome1%0913866%0920451%09yellow%0agenome2%092599%092639%09red%0agenome2%093636%099259%09yellow%0agenome2%0914490%0915888%09yellow%0agenome2%0916442%0916482%09red&gffContent=genome1%09.%09gene%095447%095994%09.%09-%09.%09ID=gene1;Name=gene1%09%0agenome1%09.%09mRNA%095447%095994%09.%09-%09.%09ID=gene1.t1;Parent=gene1;Name=gene1.t1%09%0agenome1%09.%09exon%095958%095994%09.%09-%09.%09ID=gene1.t1.exon1;Parent=gene1.t1%09%0agenome1%09.%09CDS%095958%095994%09.%09-%090%09ID=cds.gene1.t1;Parent=gene1.t1%09%0agenome1%09.%09exon%095717%095866%09.%09-%09.%09ID=gene1.t1.exon2;Parent=gene1.t1%09%0agenome1%09.%09CDS%095717%095866%09.%09-%091%09ID=cds.gene1.t1;Parent=gene1.t1%09%0agenome1%09.%09exon%095447%095469%09.%09-%09.%09ID=gene1.t1.exon3;Parent=gene1.t1%09%0agenome1%09.%09CDS%095447%095469%09.%09-%091%09ID=cds.gene1.t1;Parent=gene1.t1%09%0agenome1%09.%09gene%098000%0912321%09.%09+%09.%09ID=gene2;Name=gene2%09%0agenome1%09.%09mRNA%098000%0912321%09.%09+%09.%09ID=gene2.t1;Parent=gene2;Name=gene2.t1%09%0agenome1%09.%09exon%098000%098184%09.%09+%09.%09ID=gene2.t1.exon1;Parent=gene2.t1%09%0agenome1%09.%09CDS%098000%098184%09.%09+%090%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09exon%0910661%0910718%09.%09+%09.%09ID=gene2.t1.exon2;Parent=gene2.t1%09%0agenome1%09.%09CDS%0910661%0910718%09.%09+%092%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09exon%0911137%0911198%09.%09+%09.%09ID=gene2.t1.exon3;Parent=gene2.t1%09%0agenome1%09.%09CDS%0911137%0911198%09.%09+%090%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09exon%0911276%0911375%09.%09+%09.%09ID=gene2.t1.exon4;Parent=gene2.t1%09%0agenome1%09.%09CDS%0911276%0911375%09.%09+%092%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09exon%0911462%0911503%09.%09+%09.%09ID=gene2.t1.exon5;Parent=gene2.t1%09%0agenome1%09.%09CDS%0911462%0911503%09.%09+%090%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09exon%0911728%0911778%09.%09+%09.%09ID=gene2.t1.exon6;Parent=gene2.t1%09%0agenome1%09.%09CDS%0911728%0911778%09.%09+%090%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09exon%0912223%0912321%09.%09+%09.%09ID=gene2.t1.exon7;Parent=gene2.t1%09%0agenome1%09.%09CDS%0912223%0912321%09.%09+%090%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09gene%0913660%0921052%09.%09+%09.%09ID=gene3;Name=gene3%09%0agenome1%09.%09mRNA%0913660%0921052%09.%09+%09.%09ID=gene3.t1;Parent=gene3;Name=gene3.t1%09%0agenome1%09.%09exon%0913660%0913816%09.%09+%09.%09ID=gene3.t1.exon1;Parent=gene3.t1%09%0agenome1%09.%09CDS%0913660%0913816%09.%09+%090%09ID=cds.gene3.t1;Parent=gene3.t1%09%0agenome1%09.%09exon%0920715%0921052%09.%09+%09.%09ID=gene3.t1.exon2;Parent=gene3.t1%09%0agenome1%09.%09CDS%0920715%0921052%09.%09+%091%09ID=cds.gene3.t1;Parent=gene3.t1%0agenome2%09.%09gene%093785%0913516%09.%09+%09.%09ID=gene4;Name=gene4%09%0agenome2%09.%09mRNA%093785%0913516%09.%09+%09.%09ID=gene4.t1;Parent=gene4;Name=gene4.t1%09%0agenome2%09.%09exon%093785%093925%09.%09+%09.%09ID=gene4.t1.exon1;Parent=gene4.t1%09%0agenome2%09.%09CDS%093785%093925%09.%09+%090%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%095243%095375%09.%09+%09.%09ID=gene4.t1.exon2;Parent=gene4.t1%09%0agenome2%09.%09CDS%095243%095375%09.%09+%090%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%099258%099387%09.%09+%09.%09ID=gene4.t1.exon3;Parent=gene4.t1%09%0agenome2%09.%09CDS%099258%099387%09.%09+%091%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%0911856%0911913%09.%09+%09.%09ID=gene4.t1.exon4;Parent=gene4.t1%09%0agenome2%09.%09CDS%0911856%0911913%09.%09+%092%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%0912332%0912393%09.%09+%09.%09ID=gene4.t1.exon5;Parent=gene4.t1%09%0agenome2%09.%09CDS%0912332%0912393%09.%09+%090%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%0912471%0912570%09.%09+%09.%09ID=gene4.t1.exon6;Parent=gene4.t1%09%0agenome2%09.%09CDS%0912471%0912570%09.%09+%092%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%0912657%0912698%09.%09+%09.%09ID=gene4.t1.exon7;Parent=gene4.t1%09%0agenome2%09.%09CDS%0912657%0912698%09.%09+%090%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%0912923%0912964%09.%09+%09.%09ID=gene4.t1.exon8;Parent=gene4.t1%09%0agenome2%09.%09CDS%0912923%0912964%09.%09+%090%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%0913412%0913516%09.%09+%09.%09ID=gene4.t1.exon9;Parent=gene4.t1%09%0agenome2%09.%09CDS%0913412%0913516%09.%09+%090%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09gene%0916257%0917081%09.%09+%09.%09ID=gene5;Name=gene5%09%0agenome2%09.%09mRNA%0916257%0917081%09.%09+%09.%09ID=gene5.t1;Parent=gene5;Name=gene5.t1%09%0agenome2%09.%09exon%0916257%0916413%09.%09+%09.%09ID=gene5.t1.exon1;Parent=gene5.t1%09%0agenome2%09.%09CDS%0916257%0916413%09.%09+%090%09ID=cds.gene5.t1;Parent=gene5.t1%09%0agenome2%09.%09exon%0916744%0917081%09.%09+%09.%09ID=gene5.t1.exon2;Parent=gene5.t1%09%0agenome2%09.%09CDS%0916744%0917081%09.%09+%091%09ID=cds.gene5.t1;Parent=gene5.t1%09&style=simple&bezier=true&autoSubmit
-   )
-
+   [在LINKVIEW-GUI中尝试](https://yangjianshun.github.io/LINKVIEW2/?inputContent=%23%20BLASTN%202.2.28+%0a%23%20Query:%20genome2%0a%23%20Subject:%20genome1%0a%23%20Fields:%20query%20id,%20subject%20id,%20%%20identity,%20alignment%20length,%20mismatches,%20gap%20opens,%20q.%20start,%20q.%20end,%20s.%20start,%20s.%20end,%20evalue,%20bit%20score%0a%23%205%20hits%20found%0agenome2%09genome1%0999.10%095250%0925%0912%099256%0914492%098053%0913293%090.0%099415%0agenome2%09genome1%0999.05%092639%0915%096%091%092633%091%092635%090.0%094726%0agenome2%09genome1%0999.51%091023%093%092%092621%093642%097042%098063%090.0%091860%0agenome2%09genome1%0997.48%09992%097%099%0916460%0917451%0920448%0921421%090.0%091677%0agenome2%09genome1%09100.00%09586%090%090%0915890%0916475%0913293%0913878%090.0%091083%0a%23%20BLAST%20processed%201%20queries&highlightContent=genome1%092620%097041%09yellow%0agenome1%098037%098077%09red%0agenome1%0913272%0913312%09red%0agenome1%0913866%0920451%09yellow%0agenome2%092599%092639%09red%0agenome2%093636%099259%09yellow%0agenome2%0914490%0915888%09yellow%0agenome2%0916442%0916482%09red&gffContent=genome1%09.%09gene%095447%095994%09.%09-%09.%09ID=gene1;Name=gene1%09%0agenome1%09.%09mRNA%095447%095994%09.%09-%09.%09ID=gene1.t1;Parent=gene1;Name=gene1.t1%09%0agenome1%09.%09exon%095958%095994%09.%09-%09.%09ID=gene1.t1.exon1;Parent=gene1.t1%09%0agenome1%09.%09CDS%095958%095994%09.%09-%090%09ID=cds.gene1.t1;Parent=gene1.t1%09%0agenome1%09.%09exon%095717%095866%09.%09-%09.%09ID=gene1.t1.exon2;Parent=gene1.t1%09%0agenome1%09.%09CDS%095717%095866%09.%09-%091%09ID=cds.gene1.t1;Parent=gene1.t1%09%0agenome1%09.%09exon%095447%095469%09.%09-%09.%09ID=gene1.t1.exon3;Parent=gene1.t1%09%0agenome1%09.%09CDS%095447%095469%09.%09-%091%09ID=cds.gene1.t1;Parent=gene1.t1%09%0agenome1%09.%09gene%098000%0912321%09.%09+%09.%09ID=gene2;Name=gene2%09%0agenome1%09.%09mRNA%098000%0912321%09.%09+%09.%09ID=gene2.t1;Parent=gene2;Name=gene2.t1%09%0agenome1%09.%09exon%098000%098184%09.%09+%09.%09ID=gene2.t1.exon1;Parent=gene2.t1%09%0agenome1%09.%09CDS%098000%098184%09.%09+%090%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09exon%0910661%0910718%09.%09+%09.%09ID=gene2.t1.exon2;Parent=gene2.t1%09%0agenome1%09.%09CDS%0910661%0910718%09.%09+%092%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09exon%0911137%0911198%09.%09+%09.%09ID=gene2.t1.exon3;Parent=gene2.t1%09%0agenome1%09.%09CDS%0911137%0911198%09.%09+%090%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09exon%0911276%0911375%09.%09+%09.%09ID=gene2.t1.exon4;Parent=gene2.t1%09%0agenome1%09.%09CDS%0911276%0911375%09.%09+%092%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09exon%0911462%0911503%09.%09+%09.%09ID=gene2.t1.exon5;Parent=gene2.t1%09%0agenome1%09.%09CDS%0911462%0911503%09.%09+%090%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09exon%0911728%0911778%09.%09+%09.%09ID=gene2.t1.exon6;Parent=gene2.t1%09%0agenome1%09.%09CDS%0911728%0911778%09.%09+%090%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09exon%0912223%0912321%09.%09+%09.%09ID=gene2.t1.exon7;Parent=gene2.t1%09%0agenome1%09.%09CDS%0912223%0912321%09.%09+%090%09ID=cds.gene2.t1;Parent=gene2.t1%09%0agenome1%09.%09gene%0913660%0921052%09.%09+%09.%09ID=gene3;Name=gene3%09%0agenome1%09.%09mRNA%0913660%0921052%09.%09+%09.%09ID=gene3.t1;Parent=gene3;Name=gene3.t1%09%0agenome1%09.%09exon%0913660%0913816%09.%09+%09.%09ID=gene3.t1.exon1;Parent=gene3.t1%09%0agenome1%09.%09CDS%0913660%0913816%09.%09+%090%09ID=cds.gene3.t1;Parent=gene3.t1%09%0agenome1%09.%09exon%0920715%0921052%09.%09+%09.%09ID=gene3.t1.exon2;Parent=gene3.t1%09%0agenome1%09.%09CDS%0920715%0921052%09.%09+%091%09ID=cds.gene3.t1;Parent=gene3.t1%0agenome2%09.%09gene%093785%0913516%09.%09+%09.%09ID=gene4;Name=gene4%09%0agenome2%09.%09mRNA%093785%0913516%09.%09+%09.%09ID=gene4.t1;Parent=gene4;Name=gene4.t1%09%0agenome2%09.%09exon%093785%093925%09.%09+%09.%09ID=gene4.t1.exon1;Parent=gene4.t1%09%0agenome2%09.%09CDS%093785%093925%09.%09+%090%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%095243%095375%09.%09+%09.%09ID=gene4.t1.exon2;Parent=gene4.t1%09%0agenome2%09.%09CDS%095243%095375%09.%09+%090%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%099258%099387%09.%09+%09.%09ID=gene4.t1.exon3;Parent=gene4.t1%09%0agenome2%09.%09CDS%099258%099387%09.%09+%091%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%0911856%0911913%09.%09+%09.%09ID=gene4.t1.exon4;Parent=gene4.t1%09%0agenome2%09.%09CDS%0911856%0911913%09.%09+%092%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%0912332%0912393%09.%09+%09.%09ID=gene4.t1.exon5;Parent=gene4.t1%09%0agenome2%09.%09CDS%0912332%0912393%09.%09+%090%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%0912471%0912570%09.%09+%09.%09ID=gene4.t1.exon6;Parent=gene4.t1%09%0agenome2%09.%09CDS%0912471%0912570%09.%09+%092%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%0912657%0912698%09.%09+%09.%09ID=gene4.t1.exon7;Parent=gene4.t1%09%0agenome2%09.%09CDS%0912657%0912698%09.%09+%090%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%0912923%0912964%09.%09+%09.%09ID=gene4.t1.exon8;Parent=gene4.t1%09%0agenome2%09.%09CDS%0912923%0912964%09.%09+%090%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09exon%0913412%0913516%09.%09+%09.%09ID=gene4.t1.exon9;Parent=gene4.t1%09%0agenome2%09.%09CDS%0913412%0913516%09.%09+%090%09ID=cds.gene4.t1;Parent=gene4.t1%09%0agenome2%09.%09gene%0916257%0917081%09.%09+%09.%09ID=gene5;Name=gene5%09%0agenome2%09.%09mRNA%0916257%0917081%09.%09+%09.%09ID=gene5.t1;Parent=gene5;Name=gene5.t1%09%0agenome2%09.%09exon%0916257%0916413%09.%09+%09.%09ID=gene5.t1.exon1;Parent=gene5.t1%09%0agenome2%09.%09CDS%0916257%0916413%09.%09+%090%09ID=cds.gene5.t1;Parent=gene5.t1%09%0agenome2%09.%09exon%0916744%0917081%09.%09+%09.%09ID=gene5.t1.exon2;Parent=gene5.t1%09%0agenome2%09.%09CDS%0916744%0917081%09.%09+%091%09ID=cds.gene5.t1;Parent=gene5.t1%09&style=simple&bezier=true&autoSubmit)
    
 
    解释：
@@ -273,8 +271,8 @@ ctg4:1:100
    ```
 
 3. 运行命令 `LINKVIEW2 -k karyotype.txt --style simple --chro_axis alignments.txt`，您将得到图片如下：
-
-   ![](./images/case5.png)
+   )
+   ![](https://github.com/YangJianshun/LINKVIEW2/blob/master/packages/linkview-cli/doc/images/case5.png?raw=true)
    [在LINKVIEW-GUI中尝试](https://yangjianshun.github.io/LINKVIEW2/?inputContent=ctg1%201%2010000000%20ctg2%201%2010000000&karyotypeContent=ctg1:1:5000000%0actg2:3000001:10000000&style=simple&chro_axis=true&autoSubmit)
 
    解释：
@@ -309,7 +307,7 @@ ctg4:1:100
    ```
 
    您会得到图片如下：
-   ![](./images/case6.png)
+   ![](https://github.com/YangJianshun/LINKVIEW2/blob/master/packages/linkview-cli/doc/images/case6.png?raw=true)
    [在LINKVIEW-GUI中尝试](https://yangjianshun.github.io/LINKVIEW2/?inputContent=ctg1%201%202000000%20ctg2%203000001%205000000%0actg4%201%202000000%20ctg2%205000001%207000000&karyotypeContent=ctg1:1:2000000%0actg2%20ctg3%0actg4:1:2000000&chro_axis=true&autoSubmit)
    
    解释：
@@ -340,7 +338,7 @@ ctg4:1:100
 
 3. 运行命令 `LINKVIEW2 alignments.txt -k karyotype.txt --style=simple --align left --chro_axis --chro_axis_unit 200kb`，您将得到图片如下：
 
-   ![](./images/case7.png)
+   ![](https://github.com/YangJianshun/LINKVIEW2/blob/master/packages/linkview-cli/doc/images/case7.png?raw=true)
    [在LINKVIEW-GUI中尝试](https://yangjianshun.github.io/LINKVIEW2/?inputContent=ctg1%201%2010000000%20ctg2%201%2010000000%0actg1%201%2010000000%20ctg3%201%2010000000%0actg3%201%2010000000%20ctg4%201%2010000000%0actg4%201%2010000000%20ctg5%201%2010000000&karyotypeContent=ctg1:1:10000000%0actg3:1:10000000%20ctg2:10000000:1%0actg4:1:10000000%0actg5:1:10000000&chro_axis=true&chro_axis_unit=200kb&style=simple&autoSubmit)
    
    解释：
@@ -374,7 +372,7 @@ align=center chro_axis_unit=0.5Mb
 ```
 
 2. 运行命令 `LINKVIEW2 alignments.txt -k karyotype.txt --style=simple --align left --chro_axis --chro_axis_unit 200kb -p parameter.txt `，您将得到图片如下：
-    ![](./images/case8.png)
+    ![](https://github.com/YangJianshun/LINKVIEW2/blob/master/packages/linkview-cli/doc/images/case8.png?raw=true)
     [在LINKVIEW-GUI中尝试](https://yangjianshun.github.io/LINKVIEW2/?inputContent=ctg1%201%2010000000%20ctg2%201%2010000000%0actg1%201%2010000000%20ctg3%201%2010000000%0actg3%201%2010000000%20ctg4%201%2010000000%0actg4%201%2010000000%20ctg5%201%2010000000&karyotypeContent=ctg1:1:10000000%0actg3:1:10000000%20ctg2:10000000:1%0actg4:1:10000000%0actg5:1:10000000&chro_axis=true&chro_axis_unit=200kb&style=simple&parameterContent=label_y_offset=-10%20label_font_size=25%20chro_axis_pos=top%20align=center%0a%0alabel_pos=left%0aalign=center%20chro_axis_unit=0.5Mb&autoSubmit)
   
    解释：
