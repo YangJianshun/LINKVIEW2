@@ -21,7 +21,7 @@ export default function paramsParser(): Options {
   }
 
   program
-    .version('1.0.4')
+    .version('1.0.5')
     .name('LINKVIEW2')
     .argument('<input...>', 'input alignments file(s).');
 
@@ -176,7 +176,12 @@ export default function paramsParser(): Options {
       (svgHeight) => parseParamInt(svgHeight, '--svg_height <number>'),
       800
     )
-    .option('--svg_width <number>', 'width of svg.', parseInt, 1200)
+    .option(
+      '--svg_width <number>',
+      'width of svg.',
+      (svgWidth) => parseParamInt(svgWidth, '--svg_width <number>'),
+      1200
+    )
     .option(
       '--svg_space <number>',
       'The proportion of white space left and right.',
