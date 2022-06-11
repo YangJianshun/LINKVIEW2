@@ -13,5 +13,3 @@ export const hex2Rgb = (hexColor: string) => {
   }
   return `rgb(${r}, ${g}, ${b})`;
 }
-
-console.log(hex2Rgb('#2F4F4F'));

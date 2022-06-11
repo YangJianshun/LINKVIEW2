@@ -98,3 +98,5 @@ typings/
 # self test dir
 
 self_test/
+
+pnpm-lock.yaml

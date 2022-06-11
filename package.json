@@ -2,23 +2,23 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "@changesets/cli": "^2.22.0",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.13",
     "jest": "^27.1.0",
-    "lerna": "^4.0.0",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
     "tslib": "^2.3.1",
     "typescript": "^4.4.2"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
     "lint": "eslint",
-    "link": "lerna run link",
-    "test": "lerna run test",
     "test:coverage": "lerna run test:coverage",
-    "build": "lerna run build",
-    "release": "lerna publish"
-  },
-  "dependencies": {}
+    "build": "pnpm --filter=@linkview/{linkview-align-parser,linkview-core,linkview-cli}  run build",
+    "install-packages": "pnpm i --filter={linkview-align-parser,linkview-core,linkview-cli}",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && pnpm release:only",
+    "release:only": "changeset publish --registry=https://registry.npmjs.com/"
+  }
 }
