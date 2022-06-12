@@ -24,7 +24,9 @@ export default function render(svgTemplate: SvgTemplate, dataSource: any) {
       if (typeof content === 'string') {
         svgContents.push(content);
       } else {
-        svgContents.push(...content)
+        for (let contentLine of content) {
+          svgContents.push(contentLine);
+        }
       }
     }
   }

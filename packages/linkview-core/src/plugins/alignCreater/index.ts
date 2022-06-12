@@ -46,7 +46,9 @@ export default async function alignCreater(this: Options) {
         }
       );
       Object.assign(lenInfoAll, lenInfo);
-      alignmentsAll.push(...alignments);
+      for (const alignment of alignments ) {
+        alignmentsAll.push(alignment)
+      };
       assignAlignmentsByCtgs(alignmentsByCtgsAll, alignmentsByCtgs);
     }
   } else if (inputContent) {
@@ -61,7 +63,9 @@ export default async function alignCreater(this: Options) {
       }
     );
     Object.assign(lenInfoAll, lenInfo);
-    alignmentsAll.push(...alignments);
+    for (const alignment of alignments ) {
+      alignmentsAll.push(alignment)
+    };
     assignAlignmentsByCtgs(alignmentsByCtgsAll, alignmentsByCtgs);
   }
   options.alignments = alignmentsAll;
