@@ -100,3 +100,5 @@ typings/
 self_test/
 
 pnpm-lock.yaml
+
+**/package-lock.json
