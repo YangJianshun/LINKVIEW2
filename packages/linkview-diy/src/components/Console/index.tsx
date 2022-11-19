@@ -3,7 +3,7 @@ import { FloatButton, Dropdown } from "antd";
 import { SettingOutlined, DownloadOutlined } from "@ant-design/icons";
 import style from "./index.module.scss";
 import { throttle } from "lodash";
-import ImportModal, { ImportType } from "./ImportModal";
+import Modal, { ModalType } from './Modal';
 
 const INIT_COOR = [50, 50];
 
@@ -12,8 +12,9 @@ const Console = () => {
   // 由于 antd 5 的 FloatButton open 不够完善，只能用比较 hack 的方式
   const lockFloatButtonRef = useRef(false);
   const [coor, serCoor] = useState(INIT_COOR);
-
   const offsetCoorRef = useRef([0, 0]);
+  const [modalType, setModalType] = useState<ModalType | null>(null);
+
   const handleMouseDown = useCallback(
     ({ pageX, pageY }: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       
@@ -31,7 +32,9 @@ const Console = () => {
   const handleMouseMove = useCallback(
     throttle(
       ({ pageX, pageY }: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        console.log('modalType', modalType);
         if (!isDrag) return;
+        if (modalType) return;
         const [offsetX, offsetY] = offsetCoorRef.current;
         const x = pageX - offsetX > 0 ? pageX - offsetX : 0;
         const y = pageY - offsetY > 0 ? pageY - offsetY : 0;
@@ -44,7 +47,6 @@ const Console = () => {
     [isDrag, coor]
   );
   const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    console.log(lockFloatButtonRef.current);
     if (lockFloatButtonRef.current) e.stopPropagation();
   }, [isDrag]);
 
@@ -58,23 +60,34 @@ const Console = () => {
       className={style.floatBtnContainer}
       style={{ left: x, top: y }}>
       <FloatButton.Group
-        className={`${style.floatBtn} ${isDrag ? style.floatBtnDrag : ""} `}
+        className={`${style.floatBtn} ${isDrag && !modalType ? style.floatBtnDrag : ""}`}
         icon={<SettingOutlined />}
         trigger="click"
-        onClick={() => console.log("open")}
         shape="square">
-        {/* <FloatButton description="导入" tooltip={!isDrag && "导入文件"}/> */}
         <Dropdown
-          menu={{items: [
-            { label: <div>导入 alignments 文件</div>, key: "align_import" },
-            { label: <div>导入 gff 文件</div>, key: "gff_import" },
-          ]}}
-          placement='topRight'
-        >
-          <FloatButton
-          description="导入"
-        />
-          </Dropdown>
+          menu={{
+            items: [
+              {
+                label: (
+                  <div onClick={() => setModalType(ModalType.ImportAlignment)}>
+                    导入 alignments 文件
+                  </div>
+                ),
+                key: "align_import",
+              },
+              {
+                label: (
+                  <div onClick={() => setModalType(ModalType.ImportGff)}>
+                    导入 gff 文件
+                  </div>
+                ),
+                key: "gff_import",
+              },
+            ],
+          }}
+          placement="topRight">
+          <FloatButton description="导入" />
+        </Dropdown>
         <FloatButton
           description="比对"
           tooltip={!isDrag && "alignments 管理"}
@@ -85,7 +98,12 @@ const Console = () => {
         <FloatButton description="保存" tooltip={!isDrag && "保存"} />
       </FloatButton.Group>
       {isDrag ? <div className={style.mask}></div> : null}
-      {/* <ImportModal importType={ImportType.Alignments} open={true} /> */}
+      <Modal
+        modalType={modalType}
+        onClose={() => {
+          setModalType(null);
+        }}
+      />
     </div>
   );
 };
