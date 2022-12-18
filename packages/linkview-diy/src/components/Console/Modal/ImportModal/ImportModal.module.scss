@@ -1,0 +1,53 @@
+.uploadFileItem {
+  display: flex;
+  user-select: none;
+  justify-content: space-between;
+  margin-top: 8px;
+  border-radius: 8px;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 12px;
+  &.error {
+    .infoWarp {
+      color: red;
+    }
+  }
+  .infoWarp {
+    display: flex;
+    justify-items: center;
+
+    .fileName {
+      width: 180px;
+      margin-right: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      // border: 1px solid red;
+    }
+
+    .alignType {
+      margin-right: 10px;
+      width: 120px;
+      // border: 1px solid red;
+      text-align: center;
+    }
+
+    .alignCount {
+      width: 100px;
+      // border: 1px solid red;
+      text-align: right;
+    }
+  }
+
+  .delete {
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+    .delete {
+      transform: scale(1.2);
+    }
+  }
+}

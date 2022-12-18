@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "antd": "5.0.0",
+    "@linkview/linkview-align-parser": "^1.0.3",
+    "antd": "5.0.1",
     "konva": "^8.3.14",
     "lodash": "^4.17.21",
+    "mobx": "^6.7.0",
+    "mobx-react": "^7.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-konva": "^18.2.3"
@@ -22,8 +25,22 @@
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@vitejs/plugin-react": "^2.2.0",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.2.1",
+    "prettier": "^2.7.1",
     "sass": "^1.56.1",
     "typescript": "^4.6.4",
     "vite": "^3.2.3"
+  },
+  "lint-staged": {
+    "src/**/*.{json,css,scss,js,jsx,ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

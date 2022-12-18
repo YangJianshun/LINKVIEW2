@@ -1,0 +1,40 @@
+.releatedAlignFiles {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lengthContainer {
+  width: 100px;
+  border-radius: 5px;
+  padding: 0 5px;
+  margin: 0;
+  height: 20px;
+  line-height: 20px;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 1px 1px 1px #ccc, -1px 1px 1px #ccc, 1px -1px 1px #ccc,
+      -1px -1px 1px #ccc;
+  }
+}
+
+.lengthInput {
+  height: 20px;
+  line-height: 20px;
+  padding: 0 5px;
+  margin: 0;
+  width: 100px;
+  box-sizing: content-box;
+  box-shadow: 1px 1px 1px #ccc, -1px 1px 1px #ccc, 1px -1px 1px #ccc,
+    -1px -1px 1px #ccc;
+  border: none;
+}
+
+.importIcon {
+  cursor: pointer;
+  font-size: 18px;
+  &:hover {
+    transform: scale(1.2);
+  }
+}

@@ -1,8 +1,10 @@
-import ImportModal, { ImportType } from "./ImportModal";
+import ImportModal, { ImportType } from "./ImportModal/ImportModal";
+import ContigModal from "./ContigModal/ContigModal";
 
 export enum ModalType {
   ImportAlignment = 1,
   ImportGff,
+  Contig,
 }
 
 interface IProps {
@@ -23,6 +25,7 @@ const Modal = ({ modalType, onClose }: IProps) => {
         onClose={onClose}
         open={modalType === ModalType.ImportGff}
       />
+      <ContigModal onClose={onClose} open={modalType === ModalType.Contig} />
     </>
   );
 };

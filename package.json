@@ -6,6 +6,7 @@
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.13",
     "jest": "^27.1.0",
+    "prettier": "2.7.1",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
     "tslib": "^2.3.1",
